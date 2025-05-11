@@ -1,7 +1,9 @@
 ﻿using LibrarySystem.Data;
 using LibrarySystem.Domain.Models.DbModels;
-using LibrarySystem.Infrastructure.ModelDto;
+using LibrarySystem.Infrastructure.ModelDto.AccountingDto;
 using System;
+using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LibrarySystem.Infrastructure.Infra
@@ -12,7 +14,7 @@ namespace LibrarySystem.Infrastructure.Infra
 
         public AccountingRepository(AppDbContext dbContext)
         {
-           _dbContext = dbContext;
+            _dbContext = dbContext;
         }
         //create user process
         public async Task Sign_Up(UserSignUpDto input, Role role, string Hash)
@@ -28,8 +30,20 @@ namespace LibrarySystem.Infrastructure.Infra
             _dbContext.Users.Add(user);
 
             await _dbContext.SaveChangesAsync();
-            
+
         }
 
+
+        //public async Task Sign_In(UserSignInDto input)
+        //{
+        //    var user = await _dbContext.Users
+        //        .Where(e => e.Username == input.Username)
+        //        .FirstOrDefaultAsync();
+
+        //    if(user is null)
+        //    {
+        //        throw new 
+        //    }
+        //}
     }
 }
