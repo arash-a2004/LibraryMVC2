@@ -43,12 +43,13 @@
   <ItemGroup>
     <Compile Include="Interfaces\Application\IAuthService.cs" />
     <Compile Include="Models\DbModels\Book.cs" />
-    <Compile Include="Models\ServicesDto\LoginDto.cs" />
-    <Compile Include="Models\ServicesDto\RegisterDto.cs" />
+    <Compile Include="Models\DbModels\Role.cs" />
+    <Compile Include="Models\DbModels\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Repository\" />
+    <Folder Include="Models\ServicesDto\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

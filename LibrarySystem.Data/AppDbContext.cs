@@ -1,19 +1,57 @@
 ﻿using LibrarySystem.Domain.Models.DbModels;
-using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Data.Entity;
 
 namespace LibrarySystem.Data
 {
-    public class AppDbContext : IdentityDbContext<ApplicationUser>
+    public class AppDbContext : DbContext
     {
+        public DbSet<User> Users { get; set; }
+        public DbSet<Book> Books { get; set; }
+
         public AppDbContext() : base("Data Source=.;Initial Catalog=LibrarySystemDB;Integrated Security=True;") { }
 
-        public static AppDbContext Create()
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            return new AppDbContext();
-        }
+            base.OnModelCreating(modelBuilder);
 
-        public DbSet<Book> Books { get; set; }
+            // Configure User entity
+            // Configure User
+            modelBuilder.Entity<User>()
+                .HasKey(u => u.Id);
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.Username)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.PasswordHash)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.Role)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.SubscriptionTime)
+                .IsRequired();
+
+            // Configure Book
+            modelBuilder.Entity<Book>()
+                .HasKey(b => b.Id);
+
+            modelBuilder.Entity<Book>()
+                .Property(b => b.Title)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            modelBuilder.Entity<Book>()
+                .Property(b => b.Author)
+                .IsRequired()
+                .HasMaxLength(100);
+
+        }
     }
 
 }
