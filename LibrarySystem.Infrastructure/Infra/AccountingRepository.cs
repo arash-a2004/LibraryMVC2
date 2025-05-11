@@ -13,7 +13,6 @@ namespace LibrarySystem.Infrastructure.Infra
     public class AccountingRepository
     {
         private readonly AppDbContext _dbContext;
-
         public AccountingRepository(AppDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -35,7 +34,7 @@ namespace LibrarySystem.Infrastructure.Infra
 
         }
 
-
+        //sign-in functionality
         public async Task<User> Sign_In(UserSignInDto input)
         {
             var user = await _dbContext.Users
@@ -54,5 +53,46 @@ namespace LibrarySystem.Infrastructure.Infra
 
             return user;
         }
+
+        //delete user 
+        public async Task deleteUser(int UserId)
+        {
+            var user = await _dbContext.Users.FindAsync(UserId);
+
+            if (user is null)
+                throw new ExceptionHandler.NotFoundException("", "there is no user with this Id");
+
+            _dbContext.Users.Remove(user);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        //Edit -> password
+        public async Task ChangeUserPassword(int userId, string newPassword)
+        {
+            //create a change password functionality
+            var user = await _dbContext.Users.FindAsync(userId);
+            if (user is null)
+                throw new ExceptionHandler.NotFoundException("", "there is no user with this Id");
+
+            user.PasswordHash = new PasswordHashingServices().HashPassword(newPassword);
+            _dbContext.Entry(user).State = EntityState.Modified;
+            
+            await _dbContext.SaveChangesAsync();
+        }
+
+
+        //Edit -> Role 
+        public async Task ChangeUserRole(int userId , Role role = Role.Member)
+        {
+            var user = await _dbContext.Users.FindAsync(userId);
+            if (user is null)
+                throw new ExceptionHandler.NotFoundException("", "there is no user with this Id");
+            user.Role = role;
+            _dbContext.Entry(user).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+        }
+
+
     }
 }
