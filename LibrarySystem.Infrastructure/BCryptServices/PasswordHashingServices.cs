@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.Application.BCryptServices
+﻿namespace LibrarySystem.Infrastructure.BCryptServices
 {
     public class PasswordHashingServices
     {
