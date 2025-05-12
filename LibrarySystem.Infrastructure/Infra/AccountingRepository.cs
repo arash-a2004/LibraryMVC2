@@ -1,6 +1,7 @@
 ﻿using LibrarySystem.Data;
 using LibrarySystem.Domain.Models.DbModels;
 using LibrarySystem.Infrastructure.BCryptServices;
+using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Infrastructure.ModelDto.AccountingDto;
 using System;
 using System.Data.Entity;
@@ -10,13 +11,14 @@ using UnauthorizedAccessException = LibrarySystem.Infrastructure.ExceptionHandle
 
 namespace LibrarySystem.Infrastructure.Infra
 {
-    public class AccountingRepository
+    public class AccountingRepository : IAccountingRepository
     {
         private readonly AppDbContext _dbContext;
         public AccountingRepository(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }
+        
         //create user process
         public async Task Sign_Up(UserSignUpDto input)
         {

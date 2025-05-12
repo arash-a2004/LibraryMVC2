@@ -116,6 +116,7 @@
     <Compile Include="ExceptionHandler\ValidationException.cs" />
     <Compile Include="Infra\AccountingRepository.cs" />
     <Compile Include="Infra\Userrepository.cs" />
+    <Compile Include="Interfaces\IAccountingRepository.cs" />
     <Compile Include="ModelDto\AccountingDto\UserSignUpDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
