@@ -1,65 +1,41 @@
-﻿using LibrarySystem.Infrastructure.Infra;
-using LibrarySystem.Infrastructure.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using System.Web.Optimization;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
+using LibrarySystem.Application.Interfaces;
+using LibrarySystem.Application.Services.Accounting;
+using LibrarySystem.Infrastructure.Infra;
+using LibrarySystem.Infrastructure.Interfaces;
+using Unity;
+using Unity.Mvc5;
 
 namespace LibrarySystem.Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        public static IServiceProvider ServiceProvider { get; private set; }
-
         protected void Application_Start()
         {
+            // Create the Unity container
+            var container = new UnityContainer();
+
+            // Register types (services and interfaces)
+            RegisterTypes(container);
+
+            // Set the Dependency Resolver to use Unity
+            DependencyResolver.SetResolver(new UnityDependencyResolver(container));
+
+            // Other configuration steps for MVC
             AreaRegistration.RegisterAllAreas();
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            // Configure Dependency Injection
-            ConfigureServices();
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
         }
 
-        private void ConfigureServices()
+        // Method to register types in Unity
+        private void RegisterTypes(IUnityContainer container)
         {
-            var services = new ServiceCollection();
-
-            // Register repositories
-            services.AddScoped<IAccountingRepository, AccountingRepository>();
-
-            // Register services
-
-            // Build the service provider
-            ServiceProvider = services.BuildServiceProvider();
-
-            // Set the DependencyResolver for MVC
-            DependencyResolver.SetResolver(new DefaultDependencyResolver(ServiceProvider));
-        }
-    }
-
-    // Custom DependencyResolver to integrate with Microsoft.Extensions.DependencyInjection
-    public class DefaultDependencyResolver : IDependencyResolver
-    {
-        private readonly IServiceProvider _serviceProvider;
-
-        public DefaultDependencyResolver(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
+            // Register services with Unity container
+            container.RegisterType<IAccountingRepository, AccountingRepository>();
+            container.RegisterType<IUserrepository, Userrepository>();
+            container.RegisterType<IAccountingServices, AccountingServices>();
         }
 
-        public object GetService(Type serviceType)
-        {
-            return _serviceProvider.GetService(serviceType);
-        }
-
-        public IEnumerable<object> GetServices(Type serviceType)
-        {
-            var service = _serviceProvider.GetService(serviceType);
-            return service is IEnumerable<object> enumerable ? enumerable : new[] { service };
-        }
     }
 }

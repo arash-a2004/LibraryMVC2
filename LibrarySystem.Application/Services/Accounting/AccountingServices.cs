@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
+using LibrarySystem.Application.Interfaces;
 using LibrarySystem.Domain.Models.DbModels;
 using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Infrastructure.ModelDto.AccountingDto;
 
 namespace LibrarySystem.Application.Services.Accounting
 {
-    public class AccountingServices
+    public class AccountingServices : IAccountingServices
     {
         private readonly IAccountingRepository _accountingRepository;
         public AccountingServices(IAccountingRepository accountingRepository)
