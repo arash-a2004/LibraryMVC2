@@ -1,7 +1,7 @@
-﻿using LibrarySystem.Domain.Models.DbModels;
+﻿using System.Threading.Tasks;
+using LibrarySystem.Domain.Models.DbModels;
 using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Infrastructure.ModelDto.AccountingDto;
-using System.Threading.Tasks;
 
 namespace LibrarySystem.Application.Services.Accounting
 {
@@ -18,7 +18,12 @@ namespace LibrarySystem.Application.Services.Accounting
         }
         public async Task<User> SignIn(UserSignInDto input)
         {
-            return await _accountingRepository.Sign_In(input);
+            var user = await _accountingRepository.Sign_In(input);
+
+            if(!user.IsActive)
+                return null;
+
+            return user;
         }
         public async Task DeleteUser(int userId)
         {
@@ -28,8 +33,10 @@ namespace LibrarySystem.Application.Services.Accounting
         {
             await _accountingRepository.ChangeUserPassword(userId, newPassword);
         }
-        public async Task ChangeUserRole(int userId, Role role = Role.Member)
+        public async Task ChangeUserRole(int userId, Role changerRole, Role role = Role.Member)
         {
+            if (changerRole != Role.Admin)
+                throw new System.Exception();
             await _accountingRepository.ChangeUserRole(userId, role);
         }   
     }

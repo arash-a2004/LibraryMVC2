@@ -1,12 +1,14 @@
 ﻿using LibrarySystem.Data;
 using LibrarySystem.Domain.Models.DbModels;
+using LibrarySystem.Infrastructure.Interfaces;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace LibrarySystem.Infrastructure.Infra
 {
-    public class Userrepository
+    public class Userrepository : IUserrepository
     {
         private readonly AppDbContext _dbContext;
 
@@ -14,6 +16,8 @@ namespace LibrarySystem.Infrastructure.Infra
         {
             _dbContext = dbContext;
         }
+
+
         public async Task<User> GetUserById(int userId)
         {
             var user = await _dbContext.Users
@@ -26,6 +30,9 @@ namespace LibrarySystem.Infrastructure.Infra
             return user;
         }
 
-
+        public async Task<List<User>> GetListOfUsers()
+        {
+            return await _dbContext.Users.ToListAsync();
+        }
     }
 }

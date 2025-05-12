@@ -1,6 +1,7 @@
 ﻿using LibrarySystem.Data;
 using LibrarySystem.Domain.Models.DbModels;
 using LibrarySystem.Infrastructure.BCryptServices;
+using LibrarySystem.Infrastructure.ExceptionHandler;
 using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Infrastructure.ModelDto.AccountingDto;
 using System;
@@ -18,7 +19,7 @@ namespace LibrarySystem.Infrastructure.Infra
         {
             _dbContext = dbContext;
         }
-        
+
         //create user process
         public async Task Sign_Up(UserSignUpDto input)
         {
@@ -29,6 +30,11 @@ namespace LibrarySystem.Infrastructure.Infra
                 Role = Role.Member,
                 SubscriptionTime = DateTime.Now.AddDays(30)
             };
+
+            if (_dbContext.Users.Any(e => e.Username == user.Username))
+            {
+                throw new InUseException("Username is already in use.", "Username is already in use.");
+            }
 
             _dbContext.Users.Add(user);
 
@@ -79,13 +85,13 @@ namespace LibrarySystem.Infrastructure.Infra
 
             user.PasswordHash = new PasswordHashingServices().HashPassword(newPassword);
             _dbContext.Entry(user).State = EntityState.Modified;
-            
+
             await _dbContext.SaveChangesAsync();
         }
 
 
         //Edit -> Role 
-        public async Task ChangeUserRole(int userId , Role role = Role.Member)
+        public async Task ChangeUserRole(int userId, Role role = Role.Member)
         {
             var user = await _dbContext.Users.FindAsync(userId);
             if (user is null)

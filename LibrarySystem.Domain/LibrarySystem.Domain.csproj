@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,7 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\Application\IAuthService.cs" />
+    <Compile Include="Models\DbModels\ActivityLog.cs" />
     <Compile Include="Models\DbModels\Book.cs" />
+    <Compile Include="Models\DbModels\LoanRequest.cs" />
+    <Compile Include="Models\DbModels\LoanRequestStatus.cs" />
+    <Compile Include="Models\DbModels\LoanTransaction.cs" />
     <Compile Include="Models\DbModels\Role.cs" />
     <Compile Include="Models\DbModels\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
