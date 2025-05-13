@@ -104,6 +104,29 @@ namespace LibrarySystem.Infrastructure.Infra
                 })
                 .FirstOrDefaultAsync();
         }
+        public async Task<BookDetailOutput> GetBookDetails(int Id)
+        {
+            return await _appDbContext.Books
+                .Include("LoanTransaction.User") // String path for nested includes
+                .Where(e => e.Id == Id)
+                .Select(e => new BookDetailOutput()
+                {
+                    Id = e.Id,
+                    Title = e.Title,
+                    Author = e.Author,
+                    IsAvailable = e.IsAvailable,
+                    transactions = e.LoanTransactions.Select(lr => new transaction()
+                    {
+                        Username = lr.User.Username,
+                        LoanDate = lr.LoanDate,
+                        ReturnDate = lr.ReturnDate,
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
+        }
+
+
+
 
     }
 }

@@ -122,6 +122,7 @@
     <Compile Include="Interfaces\IAdminRepository.cs" />
     <Compile Include="Interfaces\IUserrepository.cs" />
     <Compile Include="ModelDto\AccountingDto\UserSignUpDto.cs" />
+    <Compile Include="ModelDto\AdminPageDto\BookDetailOutput.cs" />
     <Compile Include="ModelDto\AdminPageDto\GetAllBooksInput.cs" />
     <Compile Include="ModelDto\AdminPageDto\GetAllBooksOutput.cs" />
     <Compile Include="ModelDto\AdminPageDto\GetAllUsersInput.cs" />

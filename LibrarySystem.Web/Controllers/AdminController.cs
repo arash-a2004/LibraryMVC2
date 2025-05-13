@@ -106,6 +106,33 @@ namespace LibrarySystem.Web.Controllers
             return View(model);
         }
 
+        public async Task<ActionResult> Bookdetails(int Id)
+        {
+            var book = await _adminService.GetBookDetails(Id);
+
+            if (book == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = new BookDetailViewModel
+            {
+                Id = book.Id,
+                Author = book.Author,
+                Title = book.Title,
+                IsAvailable = book.IsAvailable,
+                transactions = book.transactions.Select(lr => new Models.transaction
+                {
+                    LoanDate = lr.LoanDate,
+                    ReturnDate = lr.ReturnDate,
+                    Username = lr.Username,
+                }).ToList()
+            };
+
+            return View(model);
+
+        }
+
 
     }
 }

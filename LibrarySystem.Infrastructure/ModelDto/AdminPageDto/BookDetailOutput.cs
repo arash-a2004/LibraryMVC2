@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LibrarySystem.Web.Models
+namespace LibrarySystem.Infrastructure.ModelDto.AdminPageDto
 {
-    public class BookDetailViewModel
+    public class BookDetailOutput
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -17,5 +17,6 @@ namespace LibrarySystem.Web.Models
         public DateTime LoanDate { get; set; }
         public DateTime? ReturnDate { get; set; }
     }
+
 
 }

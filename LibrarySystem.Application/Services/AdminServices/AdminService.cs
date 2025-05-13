@@ -29,5 +29,10 @@ namespace LibrarySystem.Application.Services.AdminServices
         {
             return await _adminRepository.GetUserDetailById(Id);
         }
+
+        public async Task<BookDetailOutput> GetBookDetails(int Id)
+        {
+            return await (_adminRepository.GetBookDetails(Id));
+        }
     }
 }

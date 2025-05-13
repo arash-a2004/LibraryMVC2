@@ -19,5 +19,4 @@ namespace LibrarySystem.Infrastructure.ModelDto.AdminPageDto
         public string Status { get; set; } // Pending, Approved, Rejected
 
     }
-
 }
