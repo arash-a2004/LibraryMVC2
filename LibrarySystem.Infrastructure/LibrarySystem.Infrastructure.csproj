@@ -116,11 +116,19 @@
     <Compile Include="ExceptionHandler\UnauthorizedAccessException.cs" />
     <Compile Include="ExceptionHandler\ValidationException.cs" />
     <Compile Include="Infra\AccountingRepository.cs" />
+    <Compile Include="Infra\AdminRepository.cs" />
     <Compile Include="Infra\Userrepository.cs" />
     <Compile Include="Interfaces\IAccountingRepository.cs" />
+    <Compile Include="Interfaces\IAdminRepository.cs" />
     <Compile Include="Interfaces\IUserrepository.cs" />
     <Compile Include="ModelDto\AccountingDto\UserSignUpDto.cs" />
+    <Compile Include="ModelDto\AdminPageDto\GetAllBooksInput.cs" />
+    <Compile Include="ModelDto\AdminPageDto\GetAllBooksOutput.cs" />
+    <Compile Include="ModelDto\AdminPageDto\GetAllUsersInput.cs" />
+    <Compile Include="ModelDto\AdminPageDto\GetAllUsersOutput.cs" />
+    <Compile Include="ModelDto\AdminPageDto\UserDetailOutput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryableExtensions\QueryableExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

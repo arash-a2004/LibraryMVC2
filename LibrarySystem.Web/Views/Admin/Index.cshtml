@@ -1,0 +1,107 @@
+﻿@model LibrarySystem.Web.Models.AdminDashboardViewModel
+
+<div style="margin: 20px; font-family: Arial, sans-serif;">
+    <!-- Tabs -->
+    <ul style="list-style: none; padding: 0; margin-bottom: 10px; display: flex; border-bottom: 2px solid #007bff;">
+        <li style="margin-right: 10px;">
+            <a href="#usersTab" onclick="showTab('usersTab', event)"
+               style="padding: 10px 20px; display: inline-block; border: 1px solid #007bff; border-bottom: none; background-color: #007bff; color: white; text-decoration: none;">Users</a>
+        </li>
+        <li>
+            <a href="#booksTab" onclick="showTab('booksTab', event)"
+               style="padding: 10px 20px; display: inline-block; border: 1px solid #007bff; border-bottom: none; background-color: #f1f1f1; color: #007bff; text-decoration: none;">Books</a>
+        </li>
+    </ul>
+
+    <!-- Users Tab Content -->
+    <div id="usersTab" style="border: 1px solid #007bff; padding: 20px;">
+        @Html.Partial("_UserListPartial", Model.UsersModel)
+    </div>
+
+    <!-- Books Tab Content -->
+    <div id="booksTab" style="display: none; border: 1px solid #007bff; padding: 20px;">
+        @Html.Partial("_BookListPartial", Model.BooksModel)
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Tab switching functionality
+        function showTab(tabId, e) {
+            e.preventDefault();
+
+            // Hide all tabs
+            document.getElementById("usersTab").style.display = "none";
+            document.getElementById("booksTab").style.display = "none";
+
+            // Show selected tab
+            document.getElementById(tabId).style.display = "block";
+
+            // Update tab styling
+            var links = document.querySelectorAll("ul li a");
+            links.forEach(function (link) {
+                link.style.backgroundColor = "#f1f1f1";
+                link.style.color = "#007bff";
+            });
+
+            var activeLink = e.target;
+            activeLink.style.backgroundColor = "#007bff";
+            activeLink.style.color = "white";
+        }
+
+        // Document ready
+        $(function() {
+            // Users filter form
+            $('#filterForm').submit(function (e) {
+                e.preventDefault();
+                loadUsers($(this).serialize());
+            });
+
+            // Books filter form
+            $('#filterFormBooks').submit(function (e) {
+                e.preventDefault();
+                loadBooks($(this).serialize());
+            });
+
+            // Initial load
+            loadUsers();
+        });
+
+        function loadUsers(filterData) {
+            $.ajax({
+                url: '@Url.Action("GetFilteredUsers", "Admin")',
+                type: 'GET',
+                data: filterData,
+                success: function (result) {
+                    $('#usersTab').html(result);
+                },
+                error: function () {
+                    alert('Error loading users');
+                }
+            });
+        }
+
+        function loadBooks(filterData) {
+            $.ajax({
+                url: '@Url.Action("GetFilteredBooks", "Admin")',
+                type: 'GET',
+                data: filterData,
+                success: function (result) {
+                    $('#booksTab').html(result);
+                },
+                error: function () {
+                    alert('Error loading books');
+                }
+            });
+        }
+
+        // Function to show book details (used in _BookListPartial)
+        function showBookDetails(bookId) {
+            window.location.href = '@Url.Action("Details", "Admin")' + '/' + bookId;
+        }
+        function showUserDetails(userId) {
+            window.location.href = '@Url.Action("UserDetails", "Admin")' + '/' + userId;
+        }
+    </script>
+}

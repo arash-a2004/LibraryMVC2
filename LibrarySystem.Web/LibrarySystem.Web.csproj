@@ -52,6 +52,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LibrarySystem.Infrastructure\LibrarySystem.Infrastructure.csproj">
+      <Project>{761E0B91-1BD4-41D0-85C4-657FAC26B4EA}</Project>
+      <Name>LibrarySystem.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\LibrarySystem.Domain\LibrarySystem.Domain.csproj">
       <Project>{0A1B366E-F95A-4964-8BA9-56F00B63D138}</Project>
       <Name>LibrarySystem.Domain</Name>
@@ -200,12 +206,18 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountingController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdminDashboardViewModel.cs" />
+    <Compile Include="Models\BookDetailViewModel.cs" />
+    <Compile Include="Models\BooksViewModel.cs" />
     <Compile Include="Models\LoginDto.cs" />
+    <Compile Include="Models\UserDetailViewModel.cs" />
+    <Compile Include="Models\UsersViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -261,10 +273,16 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Accounting\Login.cshtml" />
     <Content Include="Views\Accounting\Register.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Shared\Shared_AdminLayout.cshtml" />
+    <Content Include="Views\Admin\_UserListPartial.cshtml" />
+    <Content Include="Views\Admin\_BookListPartial.cshtml" />
+    <Content Include="Views\Admin\BookDetails.cshtml" />
+    <Content Include="Views\Admin\UserDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Admin\" />
     <Folder Include="Views\Dashboard\" />
     <Folder Include="Views\Librarian\" />
     <Folder Include="Views\User\" />

@@ -1,0 +1,58 @@
+﻿@* Views/Shared_AdminLayout.cshtml/ *@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body style="margin:0; font-family: Arial, sans-serif; background-color:#f7f7f7;">
+    <!-- Header -->
+    <header style="background-color:#343a40; padding:10px 20px; color:white;">
+        <h1 style="margin:0; font-size:24px;">LibrarySystem Admin</h1>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav style="background-color:#fff; border-bottom:1px solid #ddd;">
+        <ul style="list-style:none; margin:0; padding:0; display:flex;">
+            <li>
+                <a href="#usersTab" onclick="showTab('usersTab')"
+                   style="display:inline-block; padding:12px 24px; text-decoration:none; color:#007bff; border-bottom:3px solid transparent;"
+                   id="usersTabLink">Users</a>
+            </li>
+            <li>
+                <a href="#booksTab" onclick="showTab('booksTab')"
+                   style="display:inline-block; padding:12px 24px; text-decoration:none; color:#007bff; border-bottom:3px solid transparent;"
+                   id="booksTabLink">Books</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div style="padding:20px;">
+        @RenderBody()
+    </div>
+
+    <!-- Tab Script -->
+    <script>
+        function showTab(tabId) {
+            var tabs = ['usersTab', 'booksTab'];
+            tabs.forEach(function(id) {
+                document.getElementById(id).style.display = 'none';
+                document.getElementById(id + 'Link').style.borderBottomColor = 'transparent';
+                document.getElementById(id + 'Link').style.color = '#007bff';
+            });
+            document.getElementById(tabId).style.display = 'block';
+            document.getElementById(tabId + 'Link').style.borderBottomColor = '#007bff';
+            document.getElementById(tabId + 'Link').style.color = '#000';
+        }
+        // Initialize default tab
+        document.addEventListener('DOMContentLoaded', function() {
+            showTab('usersTab');
+        });
+    </script>
+</body>
+</html>

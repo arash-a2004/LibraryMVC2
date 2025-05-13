@@ -2,6 +2,7 @@
 using System.Web.Routing;
 using LibrarySystem.Application.Interfaces;
 using LibrarySystem.Application.Services.Accounting;
+using LibrarySystem.Application.Services.AdminServices;
 using LibrarySystem.Infrastructure.Infra;
 using LibrarySystem.Infrastructure.Interfaces;
 using Unity;
@@ -35,6 +36,8 @@ namespace LibrarySystem.Web
             container.RegisterType<IAccountingRepository, AccountingRepository>();
             container.RegisterType<IUserrepository, Userrepository>();
             container.RegisterType<IAccountingServices, AccountingServices>();
+            container.RegisterType<IAdminRepository, AdminRepository>();
+            container.RegisterType<IAdminService, AdminService>();
         }
 
     }

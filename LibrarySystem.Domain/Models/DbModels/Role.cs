@@ -1,10 +1,10 @@
-﻿namespace LibrarySystem.Domain.Models.DbModels
-{
-    public enum Role
+﻿    namespace LibrarySystem.Domain.Models.DbModels
     {
-        Admin = 1,
-        Librarian,
-        Member
-    }
+        public enum Role
+        {
+            Admin = 1,
+            Librarian,
+            Member
+        }
 
-}
+    }

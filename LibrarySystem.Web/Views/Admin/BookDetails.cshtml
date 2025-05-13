@@ -1,0 +1,68 @@
+﻿@model LibrarySystem.Web.Models.BookDetailViewModel
+
+<div style="font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;">Book Details</h2>
+
+    <div style="margin-bottom: 20px;">
+        <a href="@Url.Action("Index", "Admin")" style="display: inline-block; padding: 8px 15px; background-color: #3498db; color: white; text-decoration: none; border-radius: 4px;">Back to List</a>
+    </div>
+
+    <div style="margin-bottom: 25px;">
+        <h3 style="color: #2980b9; margin-bottom: 5px;">@Model.Title</h3>
+        <h4 style="color: #7f8c8d; margin-top: 0;">by @Model.Author</h4>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 15px; margin-bottom: 20px;">
+        <div style="font-weight: bold;">Status:</div>
+        <div>
+            <span style="display: inline-block; padding: 3px 10px; border-radius: 3px; background-color: @(Model.IsAvailable ? "#2ecc71" : "#e74c3c"); color: white;">
+                @(Model.IsAvailable ? "Available" : "Checked Out")
+            </span>
+        </div>
+
+        <div style="font-weight: bold;">Book ID:</div>
+        <div>@Model.Id</div>
+    </div>
+
+    <!-- Book Activity Log Section -->
+    <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+        <h4 style="color: #2c3e50; margin-bottom: 15px;">Book Activity Log</h4>
+        <div style="background-color: #f9f9f9; padding: 15px; border-radius: 4px; border: 1px solid #ddd;">
+            <p style="font-style: italic; color: #7f8c8d;">Book activity log functionality will be implemented soon.</p>
+            <!-- Placeholder for future implementation -->
+            <button style="padding: 8px 15px; background-color: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;"
+                    onclick="alert('This feature is coming soon!')">
+                View Activity Log
+            </button>
+        </div>
+    </div>
+
+    <!-- Loan History Section -->
+    @if (Model.transactions != null && Model.transactions.Any())
+    {
+        <div style="margin-top: 30px;">
+            <h4 style="color: #2c3e50; margin-bottom: 15px;">Loan History</h4>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: #3498db; color: white;">
+                        <th style="padding: 10px; text-align: left;">User</th>
+                        <th style="padding: 10px; text-align: left;">Borrowed Date</th>
+                        <th style="padding: 10px; text-align: left;">Returned Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var transaction in Model.transactions.OrderByDescending(t => t.LoanDate))
+                    {
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 10px;">@transaction.Username</td>
+                            <td style="padding: 10px;">@transaction.LoanDate.ToString("yyyy-MM-dd")</td>
+                            <td style="padding: 10px;">
+                                @(transaction.ReturnDate.HasValue ? transaction.ReturnDate.Value.ToString("yyyy-MM-dd") : "Not returned yet")
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

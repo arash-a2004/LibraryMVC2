@@ -1,0 +1,12 @@
+﻿@model LibrarySystem.Web.Models.UsersViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "User Management";
+}
+
+<h2>User Management</h2>
+
+<div id="usersTab" style="border: 1px solid #007bff; padding: 20px;">
+    @Html.Partial("_UserListPartial", Model)
+</div>

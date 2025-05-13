@@ -1,0 +1,47 @@
+﻿@model LibrarySystem.Web.Models.BooksViewModel
+
+<!-- Filter Form -->
+<form id="filterFormBooks" style="margin-bottom: 20px;">
+
+    <input type="text" name="Title" placeholder="Title" value="@Model.Title" />
+    <input type="text" name="Author" placeholder="Author" value="@Model.Author" />
+
+    <label>
+        Active:
+        <input type="checkbox" name="IsAvailable" value="true" @(Model.IsAvailable == true ? "checked" : "") />
+    </label>
+    <input type="number" name="SkipCount" placeholder="SkipCount" value="@Model.SkipCount" />
+    <input type="number" name="MaxResult" placeholder="MaxResult" value="@Model.MaxResult" />
+
+    <input type="submit" value="Filter" />
+</form>
+<!-- Books Table -->
+@if (Model != null && Model.Books != null && Model.Books.Any())
+{
+    <table border="1" cellpadding="5" style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color: #f0f0f0;">
+                <th style="padding: 8px;">Username</th>
+                <th style="padding: 8px;">Subscription Time</th>
+                <th style="padding: 8px;">Active</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model.Books)
+            {
+                <tr style="cursor: pointer;"
+                    onclick="showBookDetails(@book.Id)"
+                    onmouseover="this.style.backgroundColor='#f5f5f5'"
+                    onmouseout="this.style.backgroundColor=''">
+                    <td style="padding: 8px;">@book.Title</td>
+                    <td style="padding: 8px;">@book.Author</td>
+                    <td style="padding: 8px;">@(book.IsAvailable ? "Yes" : "No")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No books found.</p>
+}
