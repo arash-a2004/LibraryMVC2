@@ -76,6 +76,9 @@ namespace LibrarySystem.Infrastructure.Infra
 
             if (books.LoanTransactions.Any())
                 throw new System.Exception("can not delete this book becaues there are some loantransaction on book");
+
+            _appDbContext.Books.Remove(books);
+            await _appDbContext.SaveChangesAsync();
         }
 
     }

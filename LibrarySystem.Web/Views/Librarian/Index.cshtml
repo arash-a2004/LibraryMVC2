@@ -1,0 +1,73 @@
+﻿@model LibrarySystem.Web.Models.LibrarianDashboardViewModel
+<script src="jquery-3.7.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<div style="margin: 20px; font-family: Arial, sans-serif;">
+    <!-- Tabs -->
+    <ul style="list-style: none; padding: 0; margin-bottom: 10px; display: flex; border-bottom: 2px solid #007bff;">
+        <li style="margin-right: 10px;">
+            <a href="#booksTab" onclick="showTab('booksTab', event)" style="padding: 10px 20px; display: inline-block; border: 1px solid #007bff; border-bottom: none; background-color: #007bff; color: white; text-decoration: none;">Books</a>
+        </li>
+        <li style="margin-right: 10px;">
+            <a href="#pendingTab" onclick="showTab('pendingTab', event)" style="padding: 10px 20px; display: inline-block; border: 1px solid #007bff; border-bottom: none; background-color: #f1f1f1; color: #007bff; text-decoration: none;">Pending</a>
+        </li>
+        <li>
+            <a href="#usersTab" onclick="showTab('usersTab', event)" style="padding: 10px 20px; display: inline-block; border: 1px solid #007bff; border-bottom: none; background-color: #f1f1f1; color: #007bff; text-decoration: none;">Users</a>
+        </li>
+    </ul>
+
+    <!-- Books Tab -->
+    <div id="booksTab" style="border: 1px solid #007bff; padding: 20px;">
+        @Html.Partial("_LibrarianBookListPartial", Model.booksViewModel)
+    </div>
+
+    <!-- Pending Tab -->
+    <div id="pendingTab" style="display: none; border: 1px solid #007bff; padding: 20px;">
+        @*@Html.Partial("_PendingRequestListPartial", Model.PendingRequests)*@
+    </div>
+
+    <!-- Users Tab -->
+    <div id="usersTab" style="display: none; border: 1px solid #007bff; padding: 20px;">
+        @*@Html.Partial("_UserListPartial", Model.Users)*@
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function showTab(tabId, e) {
+            e.preventDefault();
+
+            // Hide all tabs
+            document.getElementById("booksTab").style.display = "none";
+            document.getElementById("pendingTab").style.display = "none";
+            document.getElementById("usersTab").style.display = "none";
+
+            // Show selected tab
+            document.getElementById(tabId).style.display = "block";
+
+            // Update tab styling
+            var links = document.querySelectorAll("ul li a");
+            links.forEach(function (link) {
+                link.style.backgroundColor = "#f1f1f1";
+                link.style.color = "#007bff";
+            });
+
+            var activeLink = e.target;
+            activeLink.style.backgroundColor = "#007bff";
+            activeLink.style.color = "white";
+        }
+        function loadBooks(filterData) {
+            $.ajax({
+                url: '@Url.Action("GetFilteredBooks", "Librarian")',
+                type: 'GET',
+                data: filterData,
+                success: function (result) {
+                    $('#booksTab').html(result);
+                },
+                error: function () {
+                    alert('Error loading books');
+                }
+            });
+        }
+    </script>
+
+}

@@ -1,9 +1,10 @@
-﻿namespace LibrarySystem.Web.Models
+﻿using System.Collections.Generic;
+
+namespace LibrarySystem.Web.Models
 {
     public class AdminDashboardViewModel
     {
         public UsersViewModel UsersModel { get; set; }
         public BooksViewModel BooksModel { get; set; }
     }
-
 }

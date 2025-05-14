@@ -3,6 +3,7 @@ using System.Web.Routing;
 using LibrarySystem.Application.Interfaces;
 using LibrarySystem.Application.Services.Accounting;
 using LibrarySystem.Application.Services.AdminServices;
+using LibrarySystem.Application.Services.LibrarianServices;
 using LibrarySystem.Infrastructure.Infra;
 using LibrarySystem.Infrastructure.Interfaces;
 using Unity;
@@ -39,6 +40,7 @@ namespace LibrarySystem.Web
             container.RegisterType<IAdminRepository, AdminRepository>();
             container.RegisterType<IAdminService, AdminService>();
             container.RegisterType<ILibrarianRepository, LibrarianRepository>();
+            container.RegisterType<ILibrarianService, LibarianService>();
         }
 
     }

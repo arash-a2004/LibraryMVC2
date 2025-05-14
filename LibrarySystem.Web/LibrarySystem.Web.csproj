@@ -209,12 +209,14 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LibrarianController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AdminDashboardViewModel.cs" />
     <Compile Include="Models\BookDetailViewModel.cs" />
     <Compile Include="Models\BooksViewModel.cs" />
+    <Compile Include="Models\LibrarianDashboardViewModel.cs" />
     <Compile Include="Models\LoginDto.cs" />
     <Compile Include="Models\UserDetailViewModel.cs" />
     <Compile Include="Models\UsersViewModel.cs" />
@@ -280,11 +282,12 @@
     <Content Include="Views\Admin\_BookListPartial.cshtml" />
     <Content Include="Views\Admin\BookDetails.cshtml" />
     <Content Include="Views\Admin\UserDetails.cshtml" />
+    <Content Include="Views\Librarian\Index.cshtml" />
+    <Content Include="Views\Librarian\_LibrarianBookListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Dashboard\" />
-    <Folder Include="Views\Librarian\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
