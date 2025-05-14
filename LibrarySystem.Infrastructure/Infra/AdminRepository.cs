@@ -104,6 +104,7 @@ namespace LibrarySystem.Infrastructure.Infra
                 })
                 .FirstOrDefaultAsync();
         }
+
         public async Task<BookDetailOutput> GetBookDetails(int Id)
         {
             return await _appDbContext.Books

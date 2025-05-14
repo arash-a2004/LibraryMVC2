@@ -1,0 +1,31 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using LibrarySystem.Application.Interfaces;
+using LibrarySystem.Infrastructure.Interfaces;
+using LibrarySystem.Infrastructure.ModelDto.AdminPageDto;
+using LibrarySystem.Infrastructure.ModelDto.LibrarianPageDto;
+
+namespace LibrarySystem.Application.Services.LibrarianServices
+{
+    public class LibarianService : ILibrarianService
+    {
+        private readonly ILibrarianRepository _librarianRepository;
+        public LibarianService(ILibrarianRepository librarianRepository)
+        {
+            _librarianRepository = librarianRepository;
+        }
+
+        public async Task<List<GetAllBooksOutput>> GetAllBook(GetAllBooksInput input)
+        {
+            return await _librarianRepository.GetAllBook(input);
+        }
+        public async Task CreateNewBook(CreateBookDto input)
+        {
+            await _librarianRepository.CreateNewBook(input);
+        }
+        public async Task DeleteBook(int bookId)
+        {
+            await _librarianRepository.DeleteBook(bookId);
+        }
+    }
+}

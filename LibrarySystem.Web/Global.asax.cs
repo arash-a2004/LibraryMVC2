@@ -38,6 +38,7 @@ namespace LibrarySystem.Web
             container.RegisterType<IAccountingServices, AccountingServices>();
             container.RegisterType<IAdminRepository, AdminRepository>();
             container.RegisterType<IAdminService, AdminService>();
+            container.RegisterType<ILibrarianRepository, LibrarianRepository>();
         }
 
     }

@@ -22,7 +22,7 @@ namespace LibrarySystem.Domain.Models.DbModels
         // One-to-one
         public virtual LoanRequest LoanRequest { get; set; }
 
-        public virtual ICollection<ActivityLog> ActivityLogs { get; set; } = new HashSet<ActivityLog>();
+        public virtual ICollection<ActivityLog> ActivityLogs { get; set; } = new List<ActivityLog>();
 
     }
 

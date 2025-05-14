@@ -52,6 +52,13 @@ namespace LibrarySystem.Data
                 .IsRequired()
                 .HasMaxLength(100);
 
+            // Book - LoanTransaction: One-to-Many
+            modelBuilder.Entity<LoanTransaction>()
+                .HasRequired(lt => lt.Book)
+                .WithMany(b => b.LoanTransactions)
+                .HasForeignKey(lt => lt.BookId)
+                .WillCascadeOnDelete(false); // Optional: prevent cascade delete if needed
+
             // one to many: User -> LoanRequests
             modelBuilder.Entity<LoanRequest>()
                 .HasRequired(lr => lr.User)

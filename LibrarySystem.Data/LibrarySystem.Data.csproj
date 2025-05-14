@@ -145,6 +145,10 @@
     <Compile Include="Migrations\202505120837530_add tables.Designer.cs">
       <DependentUpon>202505120837530_add tables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202505140619168_one to many relation between Loantransaction and Book.cs" />
+    <Compile Include="Migrations\202505140619168_one to many relation between Loantransaction and Book.Designer.cs">
+      <DependentUpon>202505140619168_one to many relation between Loantransaction and Book.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -158,6 +162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202505120837530_add tables.resx">
       <DependentUpon>202505120837530_add tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505140619168_one to many relation between Loantransaction and Book.resx">
+      <DependentUpon>202505140619168_one to many relation between Loantransaction and Book.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
