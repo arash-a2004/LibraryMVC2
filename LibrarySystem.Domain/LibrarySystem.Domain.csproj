@@ -54,6 +54,7 @@
     <Compile Include="Interfaces\Application\IAuthService.cs" />
     <Compile Include="Models\DbModels\ActivityLog.cs" />
     <Compile Include="Models\DbModels\Book.cs" />
+    <Compile Include="Models\DbModels\Fine.cs" />
     <Compile Include="Models\DbModels\LoanRequest.cs" />
     <Compile Include="Models\DbModels\LoanRequestStatus.cs" />
     <Compile Include="Models\DbModels\LoanTransaction.cs" />

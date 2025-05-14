@@ -27,5 +27,14 @@ namespace LibrarySystem.Application.Services.LibrarianServices
         {
             await _librarianRepository.DeleteBook(bookId);
         }
+        public async Task<List<PendingRequestDto>> GetPendingRequests()
+        {
+            return await _librarianRepository.GetPendingRequests();
+        }
+        public async Task ChangePendingStatus(int id, string newStatus)
+        {
+            await _librarianRepository.ChangePendingStatus(id, newStatus);
+        }
+
     }
 }

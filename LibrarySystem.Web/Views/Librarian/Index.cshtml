@@ -22,7 +22,7 @@
 
     <!-- Pending Tab -->
     <div id="pendingTab" style="display: none; border: 1px solid #007bff; padding: 20px;">
-        @*@Html.Partial("_PendingRequestListPartial", Model.PendingRequests)*@
+        @Html.Partial("_PendingRequestListPartial", Model.pendingRequestViewModels)
     </div>
 
     <!-- Users Tab -->
@@ -31,7 +31,6 @@
     </div>
 </div>
 
-@section Scripts {
     <script>
         function showTab(tabId, e) {
             e.preventDefault();
@@ -68,6 +67,41 @@
                 }
             });
         }
+
+    // load when user clicks the tab
+    $(document).on('click', 'a[href="#pendingTab"]', function (e) {
+        e.preventDefault();
+        loadPendingRequests();
+        showTab('pendingTab', e);
+    });
+
+    function loadPendingRequests() {
+        $.get('@Url.Action("GetPendingRequests")', function (html) {
+            $('#pendingTab').html(html);
+        });
+    }
+
+    function changeStatus(id, newStatus) {
+        if (newStatus === 'Rejected' && !confirm('Reject this request?')) return;
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        $.ajax({
+            url: '@Url.Action("ChangePendingStatus")',
+            type: 'POST',
+            data: {
+                __RequestVerificationToken: token,
+                id: id,
+                newStatus: newStatus
+            },
+            success: function (html) {
+                $('#pendingTab').html(html);
+            },
+            error: function (e) {
+                console.log(e)
+                alert('Error updating status.');
+            }
+        });
+    }
+
     </script>
 
-}

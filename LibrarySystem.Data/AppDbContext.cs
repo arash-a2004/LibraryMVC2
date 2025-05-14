@@ -65,18 +65,25 @@ namespace LibrarySystem.Data
                 .WithMany(u => u.LoanRequests)
                 .HasForeignKey(lr => lr.UserId);
 
-            // one to one: LoanRequest -> LoanTransaction
-            modelBuilder.Entity<LoanTransaction>()
-                .HasRequired(lt => lt.LoanRequest)
-                .WithOptional(lr => lr.LoanTransaction);
+            // 1-to-1: LoanRequest → LoanTransaction, using LoanTransaction.LoanRequestId as the FK
+            modelBuilder.Entity<LoanRequest>()
+                .HasOptional(r => r.LoanTransaction)
+                .WithRequired(t => t.LoanRequest);
 
             // One LoanTransaction has many ActivityLogs
             modelBuilder.Entity<ActivityLog>()
-                .HasRequired(a => a.LoanTransaction)
+                .HasRequired(a => a.LoanTransaction) // ✅ Correct: optional FK
                 .WithMany(t => t.ActivityLogs)
                 .HasForeignKey(a => a.LoanTransactionId)
-                .WillCascadeOnDelete(false); 
+                .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Fine>()
+                .HasKey(f => f.Id);
+
+            modelBuilder.Entity<Fine>()
+                .HasRequired(f => f.LoanTransaction)
+                .WithOptional(t => t.Fine)
+                .WillCascadeOnDelete(false); 
 
         }
     }

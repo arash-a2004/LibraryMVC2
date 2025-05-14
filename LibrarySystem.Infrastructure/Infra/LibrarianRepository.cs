@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using LibrarySystem.Data;
 using LibrarySystem.Domain.Models.DbModels;
+using LibrarySystem.Infrastructure.ExceptionHandler;
 using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Infrastructure.ModelDto.AdminPageDto;
 using LibrarySystem.Infrastructure.ModelDto.LibrarianPageDto;
@@ -67,7 +69,7 @@ namespace LibrarySystem.Infrastructure.Infra
         public async Task DeleteBook(int bookId)
         {
             var books = await _appDbContext.Books
-                .Include(u=>u.LoanTransactions)
+                .Include(u => u.LoanTransactions)
                 .Where(u => u.Id == bookId)
                 .FirstOrDefaultAsync();
 
@@ -80,6 +82,82 @@ namespace LibrarySystem.Infrastructure.Infra
             _appDbContext.Books.Remove(books);
             await _appDbContext.SaveChangesAsync();
         }
+
+        public async Task<List<PendingRequestDto>> GetPendingRequests()
+        {
+            return await _appDbContext.LoanRequests
+                .Include(r => r.User)
+                .Include(r => r.Book)
+                .Where(r => r.Status == "Pending")
+                .Select(r => new PendingRequestDto
+                {
+                    Id = r.Id,
+                    Username = r.User.Username,
+                    BookTitle = r.Book.Title,
+                    RequestDate = r.RequestDate,
+                    Status = r.Status
+                })
+                .ToListAsync();
+        }
+
+        public async Task ChangePendingStatus(int id, string newStatus)
+        {
+            try
+            {
+                var req = await _appDbContext.LoanRequests
+                    .Include(r => r.Book)
+                    .FirstOrDefaultAsync(r => r.Id == id);
+
+                if (req == null)
+                    throw new NotFoundException("pendingrequest not found", id);
+
+                if (newStatus == "Approved")
+                {
+                    // 1. mark book unavailable
+                    req.Book.IsAvailable = false;
+
+                    // 2. create LoanTransaction
+                    var txn = new LoanTransaction
+                    {
+                        BookId = req.BookId,
+                        UserId = req.UserId,
+                        LoanDate = DateTime.Now,
+                        LoanRequestId = req.Id,
+                        LoanRequest = req,
+                    };
+                    _appDbContext.LoanTransactions.Add(txn);
+
+                    await _appDbContext.SaveChangesAsync(); 
+
+                    // 3. log activity
+                    _appDbContext.ActivityLogs.Add(new ActivityLog
+                    {
+                        UserId = req.UserId,
+                        LoanTransactionId = txn.Id, // حالا Id داریم
+                        Action = "Loan approved",
+                        Timestamp = DateTime.Now
+                    });
+                }
+                else if (newStatus == "Rejected")
+                {
+                    _appDbContext.ActivityLogs.Add(new ActivityLog
+                    {
+                        UserId = req.UserId,
+                        Action = "Loan rejected",
+                        Timestamp = DateTime.Now
+                    });
+                }
+
+                req.Status = newStatus;
+
+                await _appDbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
     }
 }

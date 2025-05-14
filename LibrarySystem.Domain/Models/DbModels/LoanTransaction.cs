@@ -23,6 +23,8 @@ namespace LibrarySystem.Domain.Models.DbModels
         public virtual LoanRequest LoanRequest { get; set; }
 
         public virtual ICollection<ActivityLog> ActivityLogs { get; set; } = new List<ActivityLog>();
+        public virtual Fine Fine { get; set; }
+
 
     }
 

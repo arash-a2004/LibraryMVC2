@@ -131,6 +131,7 @@
     <Compile Include="ModelDto\AdminPageDto\GetAllUsersOutput.cs" />
     <Compile Include="ModelDto\AdminPageDto\UserDetailOutput.cs" />
     <Compile Include="ModelDto\LibrarianPageDto\CreateBookDto.cs" />
+    <Compile Include="ModelDto\LibrarianPageDto\PendingRequestDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryableExtensions\QueryableExtensions.cs" />
   </ItemGroup>

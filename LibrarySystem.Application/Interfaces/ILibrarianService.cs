@@ -10,6 +10,9 @@ namespace LibrarySystem.Application.Interfaces
         Task<List<GetAllBooksOutput>> GetAllBook(GetAllBooksInput input);
         Task CreateNewBook(CreateBookDto input);
         Task DeleteBook(int bookId);
+        Task<List<PendingRequestDto>> GetPendingRequests();
+        Task ChangePendingStatus(int id, string newStatus);
+
 
     }
 }

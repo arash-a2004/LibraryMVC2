@@ -218,6 +218,7 @@
     <Compile Include="Models\BooksViewModel.cs" />
     <Compile Include="Models\LibrarianDashboardViewModel.cs" />
     <Compile Include="Models\LoginDto.cs" />
+    <Compile Include="Models\PendingRequestViewModel.cs" />
     <Compile Include="Models\UserDetailViewModel.cs" />
     <Compile Include="Models\UsersViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -284,6 +285,7 @@
     <Content Include="Views\Admin\UserDetails.cshtml" />
     <Content Include="Views\Librarian\Index.cshtml" />
     <Content Include="Views\Librarian\_LibrarianBookListPartial.cshtml" />
+    <Content Include="Views\Librarian\_PendingRequestListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
