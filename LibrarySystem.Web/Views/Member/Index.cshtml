@@ -1,0 +1,68 @@
+﻿@model LibrarySystem.Web.Models.MemberDashboardViewModel
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<div style="margin: 20px; font-family: Arial, sans-serif;">
+    <!-- Tabs -->
+    <ul style="list-style: none; padding: 0; margin-bottom: 10px; display: flex; border-bottom: 2px solid #007bff;">
+        <li style="margin-right: 10px;">
+            <a href="#admirableTab" onclick="showTab('admirableTab', event)" style="padding: 10px 20px; display: inline-block; border: 1px solid #007bff; border-bottom: none; background-color: #007bff; color: white; text-decoration: none;">Admirable Books</a>
+        </li>
+        <li style="margin-right: 10px;">
+            <a href="#requestTab" onclick="showTab('requestTab', event)" style="padding: 10px 20px; display: inline-block; border: 1px solid #007bff; border-bottom: none; background-color: #f1f1f1; color: #007bff; text-decoration: none;">Request to Borrow</a>
+        </li>
+        <li>
+            <a href="#loansTab" onclick="showTab('loansTab', event)" style="padding: 10px 20px; display: inline-block; border: 1px solid #007bff; border-bottom: none; background-color: #f1f1f1; color: #007bff; text-decoration: none;">Loan List</a>
+        </li>
+    </ul>
+
+    <!-- Admirable Books Tab -->
+    <div id="admirableTab" style="border: 1px solid #007bff; padding: 20px;">
+        @Html.Partial("_AdmirableBooksPartial", Model.books)
+    </div>
+
+    <!-- Request to Borrow Tab -->
+    <div id="requestTab" style="display: none; border: 1px solid #007bff; padding: 20px;">
+        @*@Html.Partial("_RequestBorrowPartial", Model.RequestBorrowModel)*@
+    </div>
+
+    <!-- Loan List Tab -->
+    <div id="loansTab" style="display: none; border: 1px solid #007bff; padding: 20px;">
+        @*@Html.Partial("_LoanListPartial", Model.Loans)*@
+    </div>
+</div>
+<div id="loanFormModalOverlay"
+     style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5); z-index: 1000;">
+</div>
+<div id="loanFormModal"
+     style="display: none; position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); background-color: white;
+            padding: 20px; z-index: 1001; border-radius: 5px;">
+</div>
+
+<script>
+
+    function showTab(tabId, e) {
+        e.preventDefault();
+
+        // Hide all tabs
+        document.getElementById("admirableTab").style.display = "none";
+        document.getElementById("requestTab").style.display = "none";
+        document.getElementById("loansTab").style.display = "none";
+
+        // Show selected tab
+        document.getElementById(tabId).style.display = "block";
+
+        // Update tab styling
+        var links = document.querySelectorAll("ul li a");
+        links.forEach(function (link) {
+            link.style.backgroundColor = "#f1f1f1";
+            link.style.color = "#007bff";
+        });
+
+        var activeLink = e.target;
+        activeLink.style.backgroundColor = "#007bff";
+        activeLink.style.color = "white";
+    }
+</script>

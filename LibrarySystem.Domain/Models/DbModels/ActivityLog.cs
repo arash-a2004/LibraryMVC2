@@ -7,7 +7,7 @@ namespace LibrarySystem.Domain.Models.DbModels
         public int Id { get; set; }
 
         public int UserId { get; set; }
-        public int LoanTransactionId { get; set; } // Foreign Key
+        public int? LoanTransactionId { get; set; } // Foreign Key
 
         public string Action { get; set; }
         public DateTime Timestamp { get; set; }

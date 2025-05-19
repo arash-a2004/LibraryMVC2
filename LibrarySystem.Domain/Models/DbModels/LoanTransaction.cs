@@ -10,7 +10,7 @@ namespace LibrarySystem.Domain.Models.DbModels
         public int BookId { get; set; }
         public int UserId { get; set; }
 
-        public DateTime LoanDate { get; set; }
+        public DateTime LoanDate { get; set; } = DateTime.Now;
         public DateTime? ReturnDate { get; set; }
 
         public int LoanRequestId { get; set; }

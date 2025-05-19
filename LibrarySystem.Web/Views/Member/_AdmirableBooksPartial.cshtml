@@ -1,0 +1,66 @@
+﻿@model List<LibrarySystem.Web.Models.LoanBookViewModels>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@if (Model?.Any() == true)
+{
+    <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+        <thead>
+            <tr style="background-color: #f8f9fa;">
+                <th style="padding: 10px; border: 1px solid #ddd;">Title</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Author</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model)
+            {
+                <tr style="border-bottom: 1px solid #ddd;" onmouseover="this.style.backgroundColor='#f1f1f1'" onmouseout="this.style.backgroundColor=''">
+                    <td style="padding: 10px;">@book.Title</td>
+                    <td style="padding: 10px;">@book.Author</td>
+                    <td style="padding: 10px;">
+                        <button class="btnRequestLoan" data-book-id="@book.Id" data-book-title="@book.Title"
+                                style="padding: 6px 10px; background-color: #28a745; border: none; color: white; border-radius: 4px; cursor: pointer;">
+                            Request Loan
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No admirable books available.</p>
+}
+
+<script>
+$(function(){
+  // when user clicks your “Submit Loan Request” button:
+  $('.btnRequestLoan').click(function(){
+    var bookId = $(this).data('book-id');
+    var bookTitle = $(this).data('book-title');
+
+    // fetch the partial via GET
+      $.get('@Url.Action("RequestLoanForm","Member")', { bookId: bookId, bookTitle: bookTitle })
+      .done(function(html){
+        $('#loanFormModal').html(html);
+        $('#loanFormModalOverlay, #loanFormModal').show();
+
+        // wire up the inner Cancel button
+        $('#innerCancel').click(function(){
+          $('#loanFormModalOverlay, #loanFormModal').hide();
+        });
+      })
+      .fail(function(){
+        alert('Could not load the loan form.');
+      });
+  });
+
+  // optional: clicking outside also closes
+  $('#loanFormModalOverlay').click(function(){
+    $('#loanFormModalOverlay, #loanFormModal').hide();
+  });
+});
+</script>
+

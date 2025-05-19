@@ -1,0 +1,49 @@
+﻿@model LibrarySystem.Web.Models.CreateLoanRequestViewModel
+
+<form id="loanRequestForm" method="post" action="@Url.Action("SubmitLoanRequest", "Member")"
+      style="padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9; font-family: sans-serif;">
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.BookId)
+
+    <p style="margin-bottom: 20px; font-size: 16px;">
+        Are you sure you want to request a loan for
+        <strong style="color: #007bff;">@Model.BookTitle</strong>?
+    </p>
+
+    <div style="display: flex; gap: 10px;">
+        <button type="submit"
+                style="padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Confirm
+        </button>
+        <button type="button" id="innerCancel"
+                style="padding: 8px 16px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Cancel
+        </button>
+    </div>
+</form>
+
+<div id="loanFormErrors" style="color:red; margin-top: 10px;"></div>
+
+<script>
+    $('#loanRequestForm').submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function (html) {
+                if (!$(html).find('form').length) {
+                    $('#loanFormModalOverlay, #loanFormModal').hide();
+                    alert('Loan request submitted successfully.');
+                } else {
+                    $('#loanFormModal').html(html);
+                }
+            },
+            error: function () {
+                $('#loanFormErrors').text('Error submitting loan request.');
+            }
+        });
+    });
+</script>

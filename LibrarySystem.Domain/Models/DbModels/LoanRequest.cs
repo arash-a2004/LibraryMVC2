@@ -10,7 +10,7 @@ namespace LibrarySystem.Domain.Models.DbModels
         public int BookId { get; set; }
 
         public DateTime RequestDate { get; set; }
-        public string Status { get; set; } // Pending, Approved, Rejected
+        public string Status { get; set; } // Pending, Approved, Rejected, BackgroundCheck
 
         // Navigation properties
         public virtual User User { get; set; }

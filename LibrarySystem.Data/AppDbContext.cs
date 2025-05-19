@@ -72,7 +72,7 @@ namespace LibrarySystem.Data
 
             // One LoanTransaction has many ActivityLogs
             modelBuilder.Entity<ActivityLog>()
-                .HasRequired(a => a.LoanTransaction) // ✅ Correct: optional FK
+                .HasOptional(a => a.LoanTransaction) // ✅ Correct: optional FK
                 .WithMany(t => t.ActivityLogs)
                 .HasForeignKey(a => a.LoanTransactionId)
                 .WillCascadeOnDelete(false);

@@ -210,15 +210,18 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LibrarianController.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AdminDashboardViewModel.cs" />
     <Compile Include="Models\BookDetailViewModel.cs" />
     <Compile Include="Models\BooksViewModel.cs" />
+    <Compile Include="Models\CreateLoanRequestViewModel.cs" />
     <Compile Include="Models\LibrarianDashboardViewModel.cs" />
     <Compile Include="Models\LoginDto.cs" />
     <Compile Include="Models\PendingRequestViewModel.cs" />
+    <Compile Include="Models\MemberDashboardViewModel.cs" />
     <Compile Include="Models\UserDetailViewModel.cs" />
     <Compile Include="Models\UsersViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -286,6 +289,9 @@
     <Content Include="Views\Librarian\Index.cshtml" />
     <Content Include="Views\Librarian\_LibrarianBookListPartial.cshtml" />
     <Content Include="Views\Librarian\_PendingRequestListPartial.cshtml" />
+    <Content Include="Views\Member\Index.cshtml" />
+    <Content Include="Views\Member\_AdmirableBooksPartial.cshtml" />
+    <Content Include="Views\Member\_RequestLoanPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

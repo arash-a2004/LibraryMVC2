@@ -118,10 +118,12 @@
     <Compile Include="Infra\AccountingRepository.cs" />
     <Compile Include="Infra\AdminRepository.cs" />
     <Compile Include="Infra\LibrarianRepository.cs" />
+    <Compile Include="Infra\MemberRepository.cs" />
     <Compile Include="Infra\Userrepository.cs" />
     <Compile Include="Interfaces\IAccountingRepository.cs" />
     <Compile Include="Interfaces\IAdminRepository.cs" />
     <Compile Include="Interfaces\ILibrarianRepository.cs" />
+    <Compile Include="Interfaces\IMemberRepository.cs" />
     <Compile Include="Interfaces\IUserrepository.cs" />
     <Compile Include="ModelDto\AccountingDto\UserSignUpDto.cs" />
     <Compile Include="ModelDto\AdminPageDto\BookDetailOutput.cs" />
@@ -132,6 +134,8 @@
     <Compile Include="ModelDto\AdminPageDto\UserDetailOutput.cs" />
     <Compile Include="ModelDto\LibrarianPageDto\CreateBookDto.cs" />
     <Compile Include="ModelDto\LibrarianPageDto\PendingRequestDto.cs" />
+    <Compile Include="ModelDto\MemberDto\GetListAdmirableBooksDto.cs" />
+    <Compile Include="ModelDto\MemberDto\MemberLoanRequestDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryableExtensions\QueryableExtensions.cs" />
   </ItemGroup>
