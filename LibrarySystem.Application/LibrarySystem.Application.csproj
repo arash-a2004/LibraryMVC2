@@ -81,11 +81,13 @@
   <ItemGroup>
     <Compile Include="Interfaces\IAccountingServices.cs" />
     <Compile Include="Interfaces\IAdminService.cs" />
+    <Compile Include="Interfaces\IFineCheckerServices.cs" />
     <Compile Include="Interfaces\ILibrarianService.cs" />
     <Compile Include="Interfaces\IMemberServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Accounting\AccountingServices.cs" />
     <Compile Include="Services\AdminServices\AdminService.cs" />
+    <Compile Include="Services\FineCheckerServices\FineCheckerServices.cs" />
     <Compile Include="Services\LibrarianServices\LibarianService.cs" />
     <Compile Include="Services\MemberServices\MemberServices.cs" />
     <Compile Include="Services\UserServices\UserServices.cs" />

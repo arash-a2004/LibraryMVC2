@@ -137,25 +137,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDbContext.cs" />
-    <Compile Include="Migrations\202505110906535_initial Migration.cs" />
-    <Compile Include="Migrations\202505110906535_initial Migration.Designer.cs">
-      <DependentUpon>202505110906535_initial Migration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202505120837530_add tables.cs" />
-    <Compile Include="Migrations\202505120837530_add tables.Designer.cs">
-      <DependentUpon>202505120837530_add tables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202505140619168_one to many relation between Loantransaction and Book.cs" />
-    <Compile Include="Migrations\202505140619168_one to many relation between Loantransaction and Book.Designer.cs">
-      <DependentUpon>202505140619168_one to many relation between Loantransaction and Book.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202505141322200_Fine.cs" />
-    <Compile Include="Migrations\202505141322200_Fine.Designer.cs">
-      <DependentUpon>202505141322200_Fine.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202505190703576_ChangeLoanTransaction.cs" />
-    <Compile Include="Migrations\202505190703576_ChangeLoanTransaction.Designer.cs">
-      <DependentUpon>202505190703576_ChangeLoanTransaction.cs</DependentUpon>
+    <Compile Include="Migrations\202505191145113_initialMigration.cs" />
+    <Compile Include="Migrations\202505191145113_initialMigration.Designer.cs">
+      <DependentUpon>202505191145113_initialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -165,20 +149,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202505110906535_initial Migration.resx">
-      <DependentUpon>202505110906535_initial Migration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202505120837530_add tables.resx">
-      <DependentUpon>202505120837530_add tables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202505140619168_one to many relation between Loantransaction and Book.resx">
-      <DependentUpon>202505140619168_one to many relation between Loantransaction and Book.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202505141322200_Fine.resx">
-      <DependentUpon>202505141322200_Fine.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202505190703576_ChangeLoanTransaction.resx">
-      <DependentUpon>202505190703576_ChangeLoanTransaction.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202505191145113_initialMigration.resx">
+      <DependentUpon>202505191145113_initialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

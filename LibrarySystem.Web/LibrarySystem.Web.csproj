@@ -208,6 +208,7 @@
     <Compile Include="Controllers\AccountingController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\FineCheckerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LibrarianController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Models\BookDetailViewModel.cs" />
     <Compile Include="Models\BooksViewModel.cs" />
     <Compile Include="Models\CreateLoanRequestViewModel.cs" />
+    <Compile Include="Models\FineCheckerDashboardViewModel.cs" />
     <Compile Include="Models\LibrarianDashboardViewModel.cs" />
     <Compile Include="Models\LoanRequestListViewModel.cs" />
     <Compile Include="Models\LoginDto.cs" />
@@ -294,9 +296,11 @@
     <Content Include="Views\Member\_AdmirableBooksPartial.cshtml" />
     <Content Include="Views\Member\_RequestLoanPartial.cshtml" />
     <Content Include="Views\Member\_LoanRequestsListPartial.cshtml" />
+    <Content Include="Views\FineChecker\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="FineChcker\" />
     <Folder Include="Views\Dashboard\" />
     <Folder Include="Views\User\" />
   </ItemGroup>

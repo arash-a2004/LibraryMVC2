@@ -117,11 +117,13 @@
     <Compile Include="ExceptionHandler\ValidationException.cs" />
     <Compile Include="Infra\AccountingRepository.cs" />
     <Compile Include="Infra\AdminRepository.cs" />
+    <Compile Include="Infra\FineCheckerRepository.cs" />
     <Compile Include="Infra\LibrarianRepository.cs" />
     <Compile Include="Infra\MemberRepository.cs" />
     <Compile Include="Infra\Userrepository.cs" />
     <Compile Include="Interfaces\IAccountingRepository.cs" />
     <Compile Include="Interfaces\IAdminRepository.cs" />
+    <Compile Include="Interfaces\IFineCheckerRepository.cs" />
     <Compile Include="Interfaces\ILibrarianRepository.cs" />
     <Compile Include="Interfaces\IMemberRepository.cs" />
     <Compile Include="Interfaces\IUserrepository.cs" />
@@ -132,6 +134,7 @@
     <Compile Include="ModelDto\AdminPageDto\GetAllUsersInput.cs" />
     <Compile Include="ModelDto\AdminPageDto\GetAllUsersOutput.cs" />
     <Compile Include="ModelDto\AdminPageDto\UserDetailOutput.cs" />
+    <Compile Include="ModelDto\FineChecker\LoanRequestListDto.cs" />
     <Compile Include="ModelDto\LibrarianPageDto\CreateBookDto.cs" />
     <Compile Include="ModelDto\LibrarianPageDto\PendingRequestDto.cs" />
     <Compile Include="ModelDto\MemberDto\GetListAdmirableBooksDto.cs" />

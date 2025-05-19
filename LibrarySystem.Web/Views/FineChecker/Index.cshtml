@@ -1,0 +1,57 @@
+﻿@model LibrarySystem.Web.Models.FineCheckerDashboardViewModel
+
+<div id="tabRequests" class="tabcontent" style="display:block; margin-top:10px;">
+    @if (!Model.BackgroundCheckRequests.Any())
+    {
+        <p>No requests awaiting background check.</p>
+    }
+    else
+    {
+        <table style="width:100%;border:1px solid #ddd;border-collapse:collapse;">
+            <thead style="background:#f8f9fa;">
+                <tr>
+                    <th style="padding:8px;border:1px solid #ddd;">User</th>
+                    <th style="padding:8px;border:1px solid #ddd;">Book</th>
+                    <th style="padding:8px;border:1px solid #ddd;">Requested</th>
+                    <th style="padding:8px;border:1px solid #ddd;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var req in Model.BackgroundCheckRequests)
+                {
+                    <tr>
+                        <td style="padding:6px;border:1px solid #ddd;">@req.BookTitle</td>
+                        <td style="padding:6px;border:1px solid #ddd;">@req.RequestDate.ToString("yyyy-MM-dd")</td>
+                        <td style="padding:6px;border:1px solid #ddd;">
+                            <form method="post" asp-action="ApproveBackground" asp-controller="FineChecker" style="display:inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@req.Id" />
+                                <button type="submit" style="padding:5px 10px;background:#28a745;color:#fff;border:none;border-radius:3px;">Approve</button>
+                            </form>
+                            <form method="post" asp-action="RejectBackground" asp-controller="FineChecker" style="display:inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@req.Id" />
+                                <button type="submit" style="padding:5px 10px;background:#dc3545;color:#fff;border:none;border-radius:3px;">Reject</button>
+                            </form>
+                            <a href="@Url.Action("Details", "FineChecker", new { id = req.Id })"
+                               style="padding:5px 10px;background:#17a2b8;color:#fff;border:none;border-radius:3px;text-decoration:none;display:inline-block;margin-left:5px;">
+                                Details
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<script>
+    function showTab(id) {
+        document.querySelectorAll('.tabcontent')
+            .forEach(div => div.style.display = 'none');
+        document.getElementById(id).style.display = 'block';
+        document.querySelectorAll('.tabs button')
+            .forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+    }
+</script>

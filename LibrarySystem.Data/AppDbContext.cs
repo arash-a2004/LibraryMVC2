@@ -10,6 +10,7 @@ namespace LibrarySystem.Data
         public DbSet<LoanRequest> LoanRequests { get; set; }
         public DbSet<LoanTransaction> LoanTransactions { get; set; }
         public DbSet<ActivityLog> ActivityLogs { get; set; }
+        public DbSet<Fine> fines { get; set; }
         public AppDbContext() : base("Data Source=P140\\SQLEXPRESS;Database=LibrarySystemDB;Integrated Security=True;") { }//Data Source=.;Initial Catalog=LibrarySystemDB;Integrated Security=True;
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -37,6 +38,10 @@ namespace LibrarySystem.Data
             modelBuilder.Entity<User>()
                 .Property(u => u.SubscriptionTime)
                 .IsRequired();
+
+            modelBuilder.Entity<LoanTransaction>()
+                .HasKey(u => u.Id);
+
 
             // Configure Book
             modelBuilder.Entity<Book>()
@@ -83,7 +88,8 @@ namespace LibrarySystem.Data
             modelBuilder.Entity<Fine>()
                 .HasRequired(f => f.LoanTransaction)
                 .WithOptional(t => t.Fine)
-                .WillCascadeOnDelete(false); 
+                .WillCascadeOnDelete(false);
+
 
         }
     }

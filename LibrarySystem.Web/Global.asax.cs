@@ -3,6 +3,7 @@ using System.Web.Routing;
 using LibrarySystem.Application.Interfaces;
 using LibrarySystem.Application.Services.Accounting;
 using LibrarySystem.Application.Services.AdminServices;
+using LibrarySystem.Application.Services.FineCheckerServices;
 using LibrarySystem.Application.Services.LibrarianServices;
 using LibrarySystem.Application.Services.MemberServices;
 using LibrarySystem.Infrastructure.Infra;
@@ -44,6 +45,8 @@ namespace LibrarySystem.Web
             container.RegisterType<ILibrarianService, LibarianService>();
             container.RegisterType<IMemberRepository, MemberRepository>();
             container.RegisterType<IMemberServices, MemberServices>();
+            container.RegisterType<IFineCheckerRepository, FineCheckerRepository>();
+            container.RegisterType<IFineCheckerServices, FineCheckerServices>();
         }
 
     }

@@ -33,6 +33,9 @@ namespace LibrarySystem.Application.Services.MemberServices
         {
             await _memberRepository?.DeleteLoanRequest(id);
         }
-
+        public async Task ReturnBookAsync(int loanTransactionId)
+        {
+            await _memberRepository.ReturnBookAsync(loanTransactionId);
+        }
     }
 }

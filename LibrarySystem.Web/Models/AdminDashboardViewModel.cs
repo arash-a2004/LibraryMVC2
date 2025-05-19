@@ -1,8 +1,12 @@
-﻿namespace LibrarySystem.Web.Models
+﻿using System;
+
+namespace LibrarySystem.Web.Models
 {
     public class AdminDashboardViewModel
     {
         public UsersViewModel UsersModel { get; set; }
         public BooksViewModel BooksModel { get; set; }
     }
+
+
 }

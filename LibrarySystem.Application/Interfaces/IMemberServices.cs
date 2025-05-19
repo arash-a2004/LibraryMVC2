@@ -10,6 +10,7 @@ namespace LibrarySystem.Application.Interfaces
         Task SubmitLoanRequest(MemberLoanRequestDto input);
         Task<List<LoanRequestListDto>> LoanrequestList(int userId = 2);
         Task DeleteLoanRequest(int id);
+        Task ReturnBookAsync(int loanTransactionId);
 
     }
 

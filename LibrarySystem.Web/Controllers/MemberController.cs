@@ -92,7 +92,7 @@ namespace LibrarySystem.Web.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return new HttpStatusCodeResult(400);
+                return PartialView("_RequestLoanPartial", vm);
             }
         }
 
@@ -136,6 +136,24 @@ namespace LibrarySystem.Web.Controllers
             {
                 Console.WriteLine(ex.Message);
                 return new HttpStatusCodeResult(400);
+            }
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ReturnBookAsync(int bookId)
+        {
+            try
+            {
+                await _memberServices.ReturnBookAsync(bookId);
+                return Json(new { success = true });
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false });
+
             }
         }
 
