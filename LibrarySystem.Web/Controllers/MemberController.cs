@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using LibrarySystem.Application.Interfaces;
+using LibrarySystem.Domain.Models.DbModels;
 using LibrarySystem.Infrastructure.ModelDto.MemberDto;
 using LibrarySystem.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -24,8 +25,21 @@ namespace LibrarySystem.Web.Controllers
         public async Task<ActionResult> Index()
         {
             var books = await _memberServices.GetListAdmirableBooks();
+            //TODO : 
+            var res = await _memberServices.LoanrequestList();
+
+
+            var viewRes = res.Select(e => new LoanRequestListViewModel()
+            {
+                BookId = e.BookId,
+                Status = e.Status,
+                BookTitle = e.BookTitle,
+                RequestDate = e.RequestDate,
+                Id = e.Id
+            }).ToList();
 
             MemberDashboardViewModel viewModel = new MemberDashboardViewModel();
+            viewModel.loanRequestListViewModels = viewRes;
             viewModel.books = books.Select(e => new LoanBookViewModels()
             {
                 Author = e.Author,
@@ -82,7 +96,6 @@ namespace LibrarySystem.Web.Controllers
             }
         }
 
-
         [HttpGet]
         public ActionResult RequestLoanForm(int bookId, string bookTitle)
         {
@@ -93,6 +106,37 @@ namespace LibrarySystem.Web.Controllers
             };
 
             return PartialView("_RequestLoanPartial", vm);
+        }
+
+        public async Task<ActionResult> ViewListLoanRequests(int userId)
+        {
+            var res = await _memberServices.LoanrequestList(userId);
+            var viewRes = res.Select(e => new LoanRequestListViewModel()
+            {
+                BookId = e.BookId,
+                Status = e.Status,
+                BookTitle = e.BookTitle,
+                RequestDate = e.RequestDate,
+                Id = e.Id
+            }).ToList();
+
+            return PartialView("_LoanRequestsListPartial", viewRes);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CancelLoanRequest(int id)
+        {
+            try
+            {
+                await _memberServices.DeleteLoanRequest(id);
+                return Content("");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new HttpStatusCodeResult(400);
+            }
         }
 
     }

@@ -25,5 +25,14 @@ namespace LibrarySystem.Application.Services.MemberServices
         {
             await _memberRepository.SubmitLoanRequest(input);
         }
+        public async Task<List<LoanRequestListDto>> LoanrequestList(int userId)
+        {
+            return await _memberRepository.LoanrequestList(userId);
+        }
+        public async Task DeleteLoanRequest(int id)
+        {
+            await _memberRepository?.DeleteLoanRequest(id);
+        }
+
     }
 }

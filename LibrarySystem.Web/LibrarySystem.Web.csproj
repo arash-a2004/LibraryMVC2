@@ -219,6 +219,7 @@
     <Compile Include="Models\BooksViewModel.cs" />
     <Compile Include="Models\CreateLoanRequestViewModel.cs" />
     <Compile Include="Models\LibrarianDashboardViewModel.cs" />
+    <Compile Include="Models\LoanRequestListViewModel.cs" />
     <Compile Include="Models\LoginDto.cs" />
     <Compile Include="Models\PendingRequestViewModel.cs" />
     <Compile Include="Models\MemberDashboardViewModel.cs" />
@@ -292,6 +293,7 @@
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\Member\_AdmirableBooksPartial.cshtml" />
     <Content Include="Views\Member\_RequestLoanPartial.cshtml" />
+    <Content Include="Views\Member\_LoanRequestsListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

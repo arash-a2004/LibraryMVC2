@@ -8,5 +8,7 @@ namespace LibrarySystem.Infrastructure.Interfaces
     {
         Task<List<GetListAdmirableBooksDto>> GetListAdmirableBooks();
         Task SubmitLoanRequest(MemberLoanRequestDto input);
+        Task<List<LoanRequestListDto>> LoanrequestList(int userId);
+        Task DeleteLoanRequest(int id);
     }
 }

@@ -72,6 +72,39 @@ namespace LibrarySystem.Infrastructure.Infra
                 throw new Exception();
             }
         }
+        public async Task<List<LoanRequestListDto>> LoanrequestList(int userId)
+        {
+            return await _appDbContext.LoanRequests
+                .Include(x => x.Book)
+                .Where(e => e.UserId == userId)
+                .Select(e => new LoanRequestListDto()
+                {
+                    BookId = e.BookId,
+                    RequestDate = e.RequestDate,
+                    Status = e.Status,
+                    BookTitle = e.Book.Title,
+                    Id = e.Id,
+                })
+                .ToListAsync();
+        }
 
+        public async Task DeleteLoanRequest(int id)
+        {
+            var loanrequest = await _appDbContext.LoanRequests.FindAsync(id);
+
+            if (loanrequest != null)
+            {
+                _appDbContext.LoanRequests.Remove(loanrequest);
+            }
+
+            await _appDbContext.SaveChangesAsync();
+
+
+            var book =await  _appDbContext.Books.Where(e => e.Id == loanrequest.BookId).FirstAsync();
+
+            book.IsAvailable = true;
+
+            await _appDbContext.SaveChangesAsync();
+        }
     }
 }

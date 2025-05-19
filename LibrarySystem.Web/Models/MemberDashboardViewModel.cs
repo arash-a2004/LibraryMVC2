@@ -5,6 +5,7 @@ namespace LibrarySystem.Web.Models
     public class MemberDashboardViewModel
     {
         public List<LoanBookViewModels> books { get; set; } = new List<LoanBookViewModels>();
+        public List<LoanRequestListViewModel> loanRequestListViewModels { get; set; } = new List<LoanRequestListViewModel>();
     }
 
     public class LoanBookViewModels

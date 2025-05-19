@@ -23,13 +23,9 @@
 
     <!-- Request to Borrow Tab -->
     <div id="requestTab" style="display: none; border: 1px solid #007bff; padding: 20px;">
-        @*@Html.Partial("_RequestBorrowPartial", Model.RequestBorrowModel)*@
+        @Html.Partial("_LoanRequestsListPartial", Model.loanRequestListViewModels)
     </div>
 
-    <!-- Loan List Tab -->
-    <div id="loansTab" style="display: none; border: 1px solid #007bff; padding: 20px;">
-        @*@Html.Partial("_LoanListPartial", Model.Loans)*@
-    </div>
 </div>
 <div id="loanFormModalOverlay"
      style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
