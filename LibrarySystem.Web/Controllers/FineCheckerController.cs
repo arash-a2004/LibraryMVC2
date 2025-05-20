@@ -33,5 +33,76 @@ namespace LibrarySystem.Web.Controllers
 
             return View(fineChecker);
         }
+
+        // GET: /FineChecker/Details/5
+        [HttpGet]
+        public async Task<ActionResult> Details(int id)
+        {
+            var request = await _fineCheckerServices.GetLoanrequestDetail(id);
+
+            var fines = _fineCheckerServices.GetAllFinesForUser(request.UserId);
+
+            var returned = fines
+                .Where(f => f.IsReturned)
+                .Select(e => new UserFineCombinedViewModel()
+                {
+                    UserId = e.UserId,
+                    DaysLate = e.DaysLate,
+                    LoanDate = e.LoanDate,
+                    PaymentDate = e.PaymentDate,
+                    BookTitle = e.BookTitle,
+                    ReturnDate = e.ReturnDate,
+                    FineAmount = e.FineAmount,
+                    IsPaid = e.IsPaid,
+                    LoanTransactionId = e.LoanTransactionId,
+                }).ToList();
+
+            var unreturned = fines
+                .Where(f => !f.IsReturned)
+                .Select(e => new UserFineCombinedViewModel()
+                {
+                    UserId = e.UserId,
+                    DaysLate = e.DaysLate,
+                    LoanDate = e.LoanDate,
+                    PaymentDate = e.PaymentDate,
+                    BookTitle = e.BookTitle,
+                    ReturnDate = e.ReturnDate,
+                    FineAmount = e.FineAmount,
+                    IsPaid = e.IsPaid,
+                    LoanTransactionId = e.LoanTransactionId,
+                }).ToList();
+
+            var model = new UserFineDetailsViewModel
+            {
+                UserId = request.UserId,
+                LoanRequestId = request.Id,
+                RequestedBook = request.Book.Title,
+                RequestDate = request.RequestDate,
+                ReturnedFines = returned,
+                UnreturnedFines = unreturned
+            };
+
+            return PartialView("_FineDetails", model);
+
+        }
+
+        // POST: /FineChecker/Approve/5
+        [HttpPost]
+        public async Task<ActionResult> Approve(int id)
+        {
+            await _fineCheckerServices.Approve(id);
+            return Json(new { success = true });
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> Reject(int id)
+        {
+            await _fineCheckerServices.Reject(id);
+            return Json(new { success = true });
+        }
+
+
+
+
     }
 }

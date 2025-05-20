@@ -6,6 +6,4 @@ namespace LibrarySystem.Web.Models
     {
         public List<LoanRequestListViewModel> BackgroundCheckRequests { get; set; }
     }
-
-
 }

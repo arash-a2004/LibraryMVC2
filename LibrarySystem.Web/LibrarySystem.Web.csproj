@@ -226,6 +226,7 @@
     <Compile Include="Models\PendingRequestViewModel.cs" />
     <Compile Include="Models\MemberDashboardViewModel.cs" />
     <Compile Include="Models\UserDetailViewModel.cs" />
+    <Compile Include="Models\UserFineCombinedViewModel.cs" />
     <Compile Include="Models\UsersViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -297,6 +298,7 @@
     <Content Include="Views\Member\_RequestLoanPartial.cshtml" />
     <Content Include="Views\Member\_LoanRequestsListPartial.cshtml" />
     <Content Include="Views\FineChecker\Index.cshtml" />
+    <Content Include="Views\FineChecker\_FineDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

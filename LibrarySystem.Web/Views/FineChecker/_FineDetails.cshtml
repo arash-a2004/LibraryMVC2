@@ -1,0 +1,92 @@
+﻿@model LibrarySystem.Web.Models.UserFineDetailsViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title">Background Check for User #@Model.UserId</h5>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+
+<div class="modal-body">
+    <p>
+        <strong>Requested Book:</strong> @Model.RequestedBook<br />
+        <strong>Requested At:</strong> @Model.RequestDate.ToString("yyyy-MM-dd")
+    </p>
+
+    <h6>Unreturned (Overdue) Books</h6>
+    @if (!Model.UnreturnedFines.Any())
+    {
+        <p>No overdue books.</p>
+    }
+    else
+    {
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Loaned</th>
+                    <th>Days Late</th>
+                    <th>Fine</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var f in Model.UnreturnedFines)
+                {
+                    <tr>
+                        <td>@f.BookTitle</td>
+                        <td>@f.LoanDate.ToString("yyyy-MM-dd")</td>
+                        <td>@f.DaysLate</td>
+                        <td>@f.FineAmount?.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <h6>Returned Books</h6>
+    @if (!Model.ReturnedFines.Any())
+    {
+        <p>No returned book fines.</p>
+    }
+    else
+    {
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Loaned</th>
+                    <th>Returned</th>
+                    <th>Days Late</th>
+                    <th>Fine</th>
+                    <th>Paid?</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var f in Model.ReturnedFines)
+                {
+                    <tr>
+                        <td>@f.BookTitle</td>
+                        <td>@f.LoanDate.ToString("yyyy-MM-dd")</td>
+                        <td>@f.ReturnDate?.ToString("yyyy-MM-dd")</td>
+                        <td>@f.DaysLate</td>
+                        <td>@f.FineAmount?.ToString("C")</td>
+                        <td>@(f.IsPaid == true ? "Yes" : "No")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-success"
+            onclick="approveRequest(@Model.LoanRequestId)">
+        Approve
+    </button>
+    <button type="button" class="btn btn-danger"
+            onclick="rejectRequest(@Model.LoanRequestId)">
+        Reject
+    </button>
+    <button type="button" class="btn btn-secondary"
+            data-dismiss="modal">
+        Close
+    </button>
+</div>
