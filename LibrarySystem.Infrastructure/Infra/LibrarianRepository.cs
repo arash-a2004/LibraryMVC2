@@ -158,6 +158,57 @@ namespace LibrarySystem.Infrastructure.Infra
             }
         }
 
+        public async Task<List<GetAllUsersOutput>> GetAllUser(GetAllUsersInput input)
+        {
+            var usersQuery = _appDbContext.Users.AsQueryable();
+
+            if (!string.IsNullOrEmpty(input.Username))
+            {
+                usersQuery = usersQuery.Where(u => u.Username.Contains(input.Username));
+            }
+
+            if (input.IsActive.HasValue)
+            {
+                usersQuery = usersQuery.Where(u => u.IsActive == input.IsActive.Value);
+            }
+
+            var users = await usersQuery
+                .Select(u => new GetAllUsersOutput
+                {
+                    Id = u.Id,
+                    Username = u.Username,
+                    SubscriptionTime = u.SubscriptionTime,
+                    IsActive = u.IsActive
+                })
+                .OrderBy(u => u.Id)
+                .Skip(input.SkipCount)
+                .Take(input.MaxResult)
+                .ToListAsync();
+
+            return users;
+
+        }
+
+        public async Task<UserDetailOutput> GetUserDetailById(int Id)
+        {
+            return await _appDbContext.Users
+                .Include("LoanRequests.Book") // String path for nested includes
+                .Where(e => e.Id == Id)
+                .Select(e => new UserDetailOutput()
+                {
+                    Id = e.Id,
+                    Username = e.Username,
+                    SubscriptionTime = e.SubscriptionTime,
+                    IsActive = e.IsActive,
+                    LoanRequests = e.LoanRequests.Select(lr => new LoanRequests()
+                    {
+                        BookTitle = lr.Book.Title,
+                        RequestDate = lr.RequestDate,
+                        Status = lr.Status
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
+        }
 
     }
 }

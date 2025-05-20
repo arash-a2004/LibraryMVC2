@@ -19,21 +19,35 @@ namespace LibrarySystem.Application.Services.LibrarianServices
         {
             return await _librarianRepository.GetAllBook(input);
         }
+
         public async Task CreateNewBook(CreateBookDto input)
         {
             await _librarianRepository.CreateNewBook(input);
         }
+
         public async Task DeleteBook(int bookId)
         {
             await _librarianRepository.DeleteBook(bookId);
         }
+
         public async Task<List<PendingRequestDto>> GetPendingRequests()
         {
             return await _librarianRepository.GetPendingRequests();
         }
+
         public async Task ChangePendingStatus(int id, string newStatus)
         {
             await _librarianRepository.ChangePendingStatus(id, newStatus);
+        }
+
+        public async Task<List<GetAllUsersOutput>> GetAllUser(GetAllUsersInput input)
+        {
+            return await _librarianRepository.GetAllUser(input);
+        }
+
+        public async Task<UserDetailOutput> GetUserDetailById(int Id)
+        {
+            return await _librarianRepository.GetUserDetailById(Id);
         }
 
     }

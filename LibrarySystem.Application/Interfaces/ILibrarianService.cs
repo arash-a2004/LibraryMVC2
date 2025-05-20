@@ -12,6 +12,8 @@ namespace LibrarySystem.Application.Interfaces
         Task DeleteBook(int bookId);
         Task<List<PendingRequestDto>> GetPendingRequests();
         Task ChangePendingStatus(int id, string newStatus);
+        Task<UserDetailOutput> GetUserDetailById(int Id);
+        Task<List<GetAllUsersOutput>> GetAllUser(GetAllUsersInput input);
 
 
     }

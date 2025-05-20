@@ -4,7 +4,8 @@
         {
             Admin = 1,
             Librarian,
-            Member
+            Member,
+            FineChecker
         }
 
 

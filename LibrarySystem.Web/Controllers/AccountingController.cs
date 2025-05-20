@@ -73,16 +73,14 @@ namespace LibrarySystem.Web.Controllers
 
                 if (user != null)
                 {
-                    // Create authentication ticket (Forms Authentication)
                     var authTicket = new FormsAuthenticationTicket(
                         1,
-                        user.Username,                 // user identifier
+                        user.Username,
                         DateTime.Now,
-                        DateTime.Now.AddDays(30),  // expiry
-                        false,                         // isPersistent
-                        user.Role.ToString()           // store role in UserData
+                        DateTime.Now.AddMinutes(5),
+                        false,
+                        $"{user.Id}|{user.Role}" // Store userId and role
                     );
-
                     string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
                     var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
                     Response.Cookies.Add(authCookie);

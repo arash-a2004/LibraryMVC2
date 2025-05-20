@@ -27,11 +27,11 @@
 
     <!-- Users Tab -->
     <div id="usersTab" style="display: none; border: 1px solid #007bff; padding: 20px;">
-        @*@Html.Partial("_UserListPartial", Model.Users)*@
+        @Html.Partial("_UserListPartial", Model.UsersModel)
     </div>
 </div>
 
-    <script>
+<script>
         function showTab(tabId, e) {
             e.preventDefault();
 
@@ -102,6 +102,23 @@
             }
         });
     }
+    $(document).on('submit', '#filterForm', function (e) {
+    e.preventDefault(); // Prevent normal form submit
 
-    </script>
+    var formData = $(this).serialize(); // Serialize form data
+
+    $.ajax({
+        url: '@Url.Action("GetFilteredUsers", "Librarian")',
+        type: 'GET',
+        data: formData,
+        success: function (html) {
+            $('#usersTab').html(html); // Replace the users tab content
+        },
+        error: function () {
+            alert('Error filtering users.');
+        }
+    });
+});
+
+</script>
 

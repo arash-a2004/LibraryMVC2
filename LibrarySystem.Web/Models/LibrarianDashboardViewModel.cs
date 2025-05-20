@@ -6,7 +6,9 @@ namespace LibrarySystem.Web.Models
     {
         public BooksViewModel booksViewModel { get; set; }
         public List<PendingRequestViewModel> pendingRequestViewModels { get; set; } = new List<PendingRequestViewModel>();
-    //public IEnumerable<UserViewModel> Users { get; set; }
-}
+        public UsersViewModel UsersModel { get; set; } = new UsersViewModel();
+
+        //public IEnumerable<UserViewModel> Users { get; set; }
+    }
 
 }

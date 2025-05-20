@@ -32,46 +32,41 @@ namespace LibrarySystem.Infrastructure.Infra
                 })
                 .ToListAsync();
         }
-            
+
         public async Task SubmitLoanRequest(MemberLoanRequestDto input)
         {
-            try
+            //var userId = input.UserId;
+            var userId = 3;
+            var availablity = await _appDbContext.LoanRequests.AnyAsync(e => e.UserId == userId && e.BookId == input.BookId);
+            if (availablity)
+                throw new System.Exception();
+
+            var request = new LoanRequest
             {
-                var availablity = await _appDbContext.LoanRequests.AnyAsync(e => e.UserId == input.UserId && e.BookId == input.BookId);
-                if (availablity)
-                    throw new System.Exception();
-
-                var request = new LoanRequest
-                {
-                    UserId = 2,
-                    BookId = input.BookId,
-                    RequestDate = DateTime.Now,
-                    Status = "BackgroundCheck",
-                    User = await _appDbContext.Users.FindAsync(2),
-                    Book = await _appDbContext.Books.FindAsync(input.BookId),
-                };
+                UserId = userId,
+                BookId = input.BookId,
+                RequestDate = DateTime.Now,
+                Status = "BackgroundCheck",
+                User = await _appDbContext.Users.FindAsync(userId),
+                Book = await _appDbContext.Books.FindAsync(input.BookId),
+            };
 
 
-                var book = await _appDbContext.Books.FindAsync(input.BookId);
-                book.IsAvailable = false;
+            var book = await _appDbContext.Books.FindAsync(input.BookId);
+            book.IsAvailable = false;
 
-                _appDbContext.ActivityLogs.Add(new ActivityLog
-                {
-                    UserId = request.UserId,
-                    LoanTransactionId = null,
-                    Action = $"Requested loan for BookId={input.BookId}",
-                    Timestamp = DateTime.Now
-                });
-
-                _appDbContext.LoanRequests.Add(request);
-
-                await _appDbContext.SaveChangesAsync();
-
-            }
-            catch (System.Exception ex)
+            _appDbContext.ActivityLogs.Add(new ActivityLog
             {
-                throw new Exception();
-            }
+                UserId = request.UserId,
+                LoanTransactionId = null,
+                Action = $"Requested loan for BookId={input.BookId}",
+                Timestamp = DateTime.Now
+            });
+
+            _appDbContext.LoanRequests.Add(request);
+
+            await _appDbContext.SaveChangesAsync();
+
         }
 
         public async Task<List<LoanRequestListDto>> LoanrequestList(int userId)
@@ -80,7 +75,7 @@ namespace LibrarySystem.Infrastructure.Infra
                 .Include(x => x.Book)
                 .Include(x => x.LoanTransaction)
                 .Where(e => e.UserId == userId)
-                .Where(e=>(e.LoanTransaction == null) || (e.LoanTransaction !=null && e.LoanTransaction.ReturnDate == null))
+                .Where(e => (e.LoanTransaction == null) || (e.LoanTransaction != null && e.LoanTransaction.ReturnDate == null))
                 .Select(e => new LoanRequestListDto()
                 {
                     BookId = e.BookId,
@@ -108,13 +103,13 @@ namespace LibrarySystem.Infrastructure.Infra
                 await _appDbContext.SaveChangesAsync();
 
 
-                var book =await  _appDbContext.Books.Where(e => e.Id == loanrequest.BookId).FirstAsync();
+                var book = await _appDbContext.Books.Where(e => e.Id == loanrequest.BookId).FirstAsync();
 
                 book.IsAvailable = true;
 
                 await _appDbContext.SaveChangesAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
@@ -123,8 +118,8 @@ namespace LibrarySystem.Infrastructure.Infra
         public async Task ReturnBookAsync(int bookId)
         {
             var loantranactionId = _appDbContext.Books
-                .Include(e=>e.LoanTransactions)
-                .Where(e=>e.Id == bookId)
+                .Include(e => e.LoanTransactions)
+                .Where(e => e.Id == bookId)
                 .First().LoanTransactions
                 .Last().Id;
 

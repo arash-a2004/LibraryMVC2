@@ -29,8 +29,17 @@ namespace LibrarySystem.Web.Controllers
             {
                 var books = await _librarianService.GetAllBook(b);
                 var pendingList = await _librarianService.GetPendingRequests();
+                GetAllUsersInput booksInput = new GetAllUsersInput();   
+                var users = await _librarianService.GetAllUser(booksInput);
+                var model = new UsersViewModel
+                {
+                    Username = booksInput.Username,
+                    IsActive = booksInput.IsActive,
+                    Users = users
+                };
                 librarianDashboardViewModel.booksViewModel = new BooksViewModel();
                 librarianDashboardViewModel.booksViewModel.Books = books;
+                librarianDashboardViewModel.UsersModel = model;
                 librarianDashboardViewModel.pendingRequestViewModels = pendingList.Select(e => new PendingRequestViewModel()
                 {
                     Id = e.Id,
@@ -143,6 +152,56 @@ namespace LibrarySystem.Web.Controllers
 
             return PartialView("_PendingRequestListPartial", b);
 
+        }
+
+
+        public async Task<ActionResult> UserDetails(int id)
+        {
+            var user = await _librarianService.GetUserDetailById(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = new UserDetailViewModel
+            {
+                Id = user.Id,
+                Username = user.Username,
+                SubscriptionTime = user.SubscriptionTime,
+                IsActive = user.IsActive,
+                LoanRequests = user.LoanRequests.Select(lr => new Models.LoanRequests
+                {
+                    BookTitle = lr.BookTitle,
+                    RequestDate = lr.RequestDate,
+                    Status = lr.Status
+                })
+                    .ToList()
+            };
+
+            return View(model);
+        }
+
+
+        [HttpGet]
+        public async Task<PartialViewResult> GetFilteredUsers(GetAllUsersInput input)
+        {
+            try
+            {
+                var users = await _librarianService.GetAllUser(input);
+                var model = new UsersViewModel
+                {
+                    Username = input.Username,
+                    IsActive = input.IsActive,
+                    Users = users
+                };
+
+                return PartialView("_UserListPartial", model);
+            }
+            catch (System.Exception ex)
+            {
+                return PartialView("_UserListPartial", new UsersViewModel());
+
+            }
         }
 
 

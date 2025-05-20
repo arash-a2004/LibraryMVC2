@@ -8,7 +8,7 @@ namespace LibrarySystem.Application.Interfaces
     {
         Task<List<GetListAdmirableBooksDto>> GetListAdmirableBooks();
         Task SubmitLoanRequest(MemberLoanRequestDto input);
-        Task<List<LoanRequestListDto>> LoanrequestList(int userId = 2);
+        Task<List<LoanRequestListDto>> LoanrequestList(int userId);
         Task DeleteLoanRequest(int id);
         Task ReturnBookAsync(int loanTransactionId);
 

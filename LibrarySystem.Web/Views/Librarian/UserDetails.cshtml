@@ -1,0 +1,98 @@
+﻿@model LibrarySystem.Web.Models.UserDetailViewModel
+
+<div style="font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;">User Details</h2>
+
+    <div style="margin-bottom: 20px;">
+        <a href="@Url.Action("Index", "Admin")" style="display: inline-block; padding: 8px 15px; background-color: #3498db; color: white; text-decoration: none; border-radius: 4px;">Back to List</a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 15px; margin-bottom: 20px;">
+        <div style="font-weight: bold;">Username:</div>
+        <div>@Model.Username</div>
+
+        <div style="font-weight: bold;">User ID:</div>
+        <div>@Model.Id</div>
+        @if (Model.SubscriptionTime != null)
+        {
+            <div style="font-weight: bold;">Subscription Date:</div>
+            <div>@Model.SubscriptionTime.Value.ToString("yyyy-MM-dd")</div>
+        }
+        <div style="font-weight: bold;">Status:</div>
+        <div>
+            <span style="display: inline-block; padding: 3px 10px; border-radius: 3px; background-color: @(Model.IsActive ? "#2ecc71" : "#e74c3c"); color: white;">
+                @(Model.IsActive ? "Active" : "Inactive")
+            </span>
+        </div>
+    </div>
+
+    <!-- Change Password Section -->
+    <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+        <h4 style="color: #2c3e50; margin-bottom: 15px;">Change Password</h4>
+        <div style="background-color: #f9f9f9; padding: 15px; border-radius: 4px; border: 1px solid #ddd;">
+            <p style="font-style: italic; color: #7f8c8d;">Password change functionality will be implemented soon.</p>
+            <!-- Placeholder form for future implementation -->
+            <form style="margin-top: 10px;">
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">New Password</label>
+                    <input type="password" style="padding: 8px; width: 100%; max-width: 300px; border: 1px solid #ddd; border-radius: 4px;" disabled />
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Confirm Password</label>
+                    <input type="password" style="padding: 8px; width: 100%; max-width: 300px; border: 1px solid #ddd; border-radius: 4px;" disabled />
+                </div>
+                <button style="padding: 8px 15px; background-color: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;"
+                        onclick="alert('This feature is coming soon!'); return false;">
+                    Change Password
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Activity Log Section -->
+    <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+        <h4 style="color: #2c3e50; margin-bottom: 15px;">User Activity Log</h4>
+        <div style="background-color: #f9f9f9; padding: 15px; border-radius: 4px; border: 1px solid #ddd;">
+            <p style="font-style: italic; color: #7f8c8d;">User activity log functionality will be implemented soon.</p>
+            <!-- Placeholder for future implementation -->
+            <button style="padding: 8px 15px; background-color: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;"
+                    onclick="alert('This feature is coming soon!')">
+                View Activity Log
+            </button>
+        </div>
+    </div>
+
+    <!-- Loan Requests Section -->
+    @if (Model.LoanRequests != null && Model.LoanRequests.Any())
+    {
+        <div style="margin-top: 30px;">
+            <h4 style="color: #2c3e50; margin-bottom: 15px;">Loan Requests</h4>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: #3498db; color: white;">
+                        <th style="padding: 10px; text-align: left;">Book</th>
+                        <th style="padding: 10px; text-align: left;">Request Date</th>
+                        <th style="padding: 10px; text-align: left;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in Model.LoanRequests.OrderByDescending(r => r.RequestDate))
+                    {
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 10px;">@request.BookTitle</td>
+                            <td style="padding: 10px;">@request.RequestDate.ToString("yyyy-MM-dd")</td>
+                            <td style="padding: 10px;">
+                                <span style="display: inline-block; padding: 3px 10px; border-radius: 3px;
+                                      background-color: @(request.Status == "Approved" ? "#2ecc71" :
+                                       request.Status == "Pending" ? "#f39c12" : "#e74c3c");
+                                      color: white;">
+                                    @request.Status
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

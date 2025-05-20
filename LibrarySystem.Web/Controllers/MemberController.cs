@@ -6,14 +6,18 @@ using System.Web.Mvc;
 using LibrarySystem.Application.Interfaces;
 using LibrarySystem.Domain.Models.DbModels;
 using LibrarySystem.Infrastructure.ModelDto.MemberDto;
+using LibrarySystem.Web.CustomAttribute;
 using LibrarySystem.Web.Models;
 using Microsoft.AspNet.Identity;
 
 namespace LibrarySystem.Web.Controllers
 {
+    [CustomAuthorize]
     public class MemberController : Controller
     {
         private readonly IMemberServices _memberServices;
+        protected int CurrentUserId => (int)HttpContext.Items["UserId"];
+        protected string CurrentUserRole => HttpContext.Items["UserRole"].ToString();
 
         public MemberController(IMemberServices memberServices)
         {
@@ -26,7 +30,7 @@ namespace LibrarySystem.Web.Controllers
         {
             var books = await _memberServices.GetListAdmirableBooks();
             //TODO : 
-            var res = await _memberServices.LoanrequestList();
+            var res = await _memberServices.LoanrequestList(CurrentUserId);
 
 
             var viewRes = res.Select(e => new LoanRequestListViewModel()
@@ -77,12 +81,12 @@ namespace LibrarySystem.Web.Controllers
                     return PartialView("_RequestLoanPartial", vm);
                 }
 
-                var userId = User.Identity.GetUserId(); // اگر از ASP.NET Identity استفاده می‌کنید
+                var userId = CurrentUserId;
 
                 var memberLoanRequestDto = new MemberLoanRequestDto
                 {
                     BookId = vm.BookId,
-                    UserId = 2
+                    UserId = userId
                 };
 
                 await _memberServices.SubmitLoanRequest(memberLoanRequestDto);
@@ -108,9 +112,9 @@ namespace LibrarySystem.Web.Controllers
             return PartialView("_RequestLoanPartial", vm);
         }
 
-        public async Task<ActionResult> ViewListLoanRequests(int userId)
+        public async Task<ActionResult> ViewListLoanRequests()
         {
-            var res = await _memberServices.LoanrequestList(userId);
+            var res = await _memberServices.LoanrequestList(CurrentUserId);
             var viewRes = res.Select(e => new LoanRequestListViewModel()
             {
                 BookId = e.BookId,
