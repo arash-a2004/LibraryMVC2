@@ -11,6 +11,10 @@
         <li style="margin-right: 10px;">
             <a href="#requestTab" onclick="showTab('requestTab', event)" style="padding: 10px 20px; display: inline-block; border: 1px solid #007bff; border-bottom: none; background-color: #f1f1f1; color: #007bff; text-decoration: none;">Request to Borrow</a>
         </li>
+        <li style="margin-right: 10px;">
+            <a href="#MyBookTab" onclick="showTab('MyBookTab', event)" style="padding: 10px 20px; display: inline-block; border: 1px solid #007bff; border-bottom: none; background-color: #f1f1f1; color: #007bff; text-decoration: none;">My Books</a>
+        </li>
+
     </ul>
 
     <!-- Admirable Books Tab -->
@@ -21,6 +25,10 @@
     <!-- Request to Borrow Tab -->
     <div id="requestTab" style="display: none; border: 1px solid #007bff; padding: 20px;">
         @Html.Partial("_LoanRequestsListPartial", Model.loanRequestListViewModels)
+    </div>
+    
+    <div id="MyBookTab" style="display: none; border: 1px solid #007bff; padding: 20px;">
+        @Html.Partial("_MyBooksPartial", Model.myBooks)
     </div>
 
 </div>
@@ -35,13 +43,38 @@
 </div>
 
 <script>
+    $(document).ready(function () {
+        $('.return-book-btn').on('click', function () {
+            var bookId = $(this).data('id');
+            console.log(bookId)
+            if (!confirm("Are you sure you want to return this book?")) {
+                return;
+            }
 
+            $.ajax({
+                url: '@Url.Action("ReturnBookAsync", "Member")',
+                type: 'POST',
+                data: { bookId: bookId },
+                success: function (result) {
+                    if (result.success) {
+                        $('#book-row-' + bookId).fadeOut();
+                    } else {
+                        alert('Failed to return book.');
+                    }
+                },
+                error: function () {
+                    alert('An error occurred while processing the return.');
+                }
+            });
+        });
+    });
     function showTab(tabId, e) {
         e.preventDefault();
 
         // Hide all tabs
         document.getElementById("admirableTab").style.display = "none";
         document.getElementById("requestTab").style.display = "none";
+        document.getElementById("MyBookTab").style.display = "none";
 
         // Show selected tab
         document.getElementById(tabId).style.display = "block";

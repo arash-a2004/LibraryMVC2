@@ -303,6 +303,7 @@
     <Content Include="Views\FineChecker\_FineDetails.cshtml" />
     <Content Include="Views\Librarian\_UserListPartial.cshtml" />
     <Content Include="Views\Librarian\UserDetails.cshtml" />
+    <Content Include="Views\Member\_MyBooksPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

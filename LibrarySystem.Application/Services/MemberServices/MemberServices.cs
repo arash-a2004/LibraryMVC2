@@ -37,5 +37,9 @@ namespace LibrarySystem.Application.Services.MemberServices
         {
             await _memberRepository.ReturnBookAsync(loanTransactionId);
         }
+        public async Task<List<GetListAdmirableBooksDto>> MyBooks(int userId)
+        {
+            return await _memberRepository.MyBooks(userId);
+        }
     }
 }

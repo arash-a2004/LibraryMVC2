@@ -35,8 +35,7 @@ namespace LibrarySystem.Infrastructure.Infra
 
         public async Task SubmitLoanRequest(MemberLoanRequestDto input)
         {
-            //var userId = input.UserId;
-            var userId = 3;
+            var userId = input.UserId;
             var availablity = await _appDbContext.LoanRequests.AnyAsync(e => e.UserId == userId && e.BookId == input.BookId);
             if (availablity)
                 throw new System.Exception();
@@ -192,6 +191,22 @@ namespace LibrarySystem.Infrastructure.Infra
             await _appDbContext.SaveChangesAsync();
         }
 
+        public async Task<List<GetListAdmirableBooksDto>> MyBooks(int userId)
+        {
+            return await _appDbContext.LoanRequests
+                .Include(x => x.Book)
+                .Where(e => e.UserId == userId)
+                .Where(r => r.Status == "Approved"
+                     && r.LoanTransaction != null
+                     && r.LoanTransaction.ReturnDate == null)
+                    .Select(e => new GetListAdmirableBooksDto()
+                    {
+                        Id = e.BookId,
+                        Author = e.Book.Author,
+                        Title = e.Book.Title
+                    })
+                .ToListAsync();
 
+        }
     }
 }

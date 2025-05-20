@@ -4,11 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using LibrarySystem.Application.Interfaces;
-using LibrarySystem.Domain.Models.DbModels;
 using LibrarySystem.Infrastructure.ModelDto.MemberDto;
 using LibrarySystem.Web.CustomAttribute;
 using LibrarySystem.Web.Models;
-using Microsoft.AspNet.Identity;
 
 namespace LibrarySystem.Web.Controllers
 {
@@ -29,9 +27,17 @@ namespace LibrarySystem.Web.Controllers
         public async Task<ActionResult> Index()
         {
             var books = await _memberServices.GetListAdmirableBooks();
-            //TODO : 
             var res = await _memberServices.LoanrequestList(CurrentUserId);
 
+            var Mybooks = await _memberServices.MyBooks(CurrentUserId);
+
+            List<LoanBookViewModels> loanBookViewModels = new List<LoanBookViewModels>();
+            loanBookViewModels = Mybooks.Select(e => new LoanBookViewModels()
+            {
+                Author = e.Author,
+                Id = e.Id,
+                Title = e.Title
+            }).ToList();
 
             var viewRes = res.Select(e => new LoanRequestListViewModel()
             {
@@ -44,6 +50,7 @@ namespace LibrarySystem.Web.Controllers
 
             MemberDashboardViewModel viewModel = new MemberDashboardViewModel();
             viewModel.loanRequestListViewModels = viewRes;
+            viewModel.myBooks = loanBookViewModels;
             viewModel.books = books.Select(e => new LoanBookViewModels()
             {
                 Author = e.Author,
@@ -142,9 +149,9 @@ namespace LibrarySystem.Web.Controllers
                 return new HttpStatusCodeResult(400);
             }
         }
-        
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> ReturnBookAsync(int bookId)
         {
             try
@@ -159,6 +166,21 @@ namespace LibrarySystem.Web.Controllers
                 return Json(new { success = false });
 
             }
+        }
+
+        public async Task<ActionResult> GetMyBooks()
+        {
+            var books = await _memberServices.MyBooks(CurrentUserId);
+
+            List<LoanBookViewModels> loanBookViewModels = new List<LoanBookViewModels>();
+            loanBookViewModels = books.Select(e => new LoanBookViewModels()
+            {
+                Author = e.Author,
+                Id = e.Id,
+                Title = e.Title
+            }).ToList();
+
+            return PartialView("_MyBooksPartial",loanBookViewModels);
         }
 
     }

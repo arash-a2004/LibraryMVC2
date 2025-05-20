@@ -11,5 +11,6 @@ namespace LibrarySystem.Infrastructure.Interfaces
         Task<List<LoanRequestListDto>> LoanrequestList(int userId);
         Task DeleteLoanRequest(int id);
         Task ReturnBookAsync(int loanTransactionId);
+        Task<List<GetListAdmirableBooksDto>> MyBooks(int userId);
     }
 }

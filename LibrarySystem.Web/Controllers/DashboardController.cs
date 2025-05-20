@@ -27,7 +27,7 @@ namespace LibrarySystem.Web.Controllers
                     case "FineChecker":
                         return RedirectToAction("Index", "FineChecker");
                     default:
-                        return RedirectToAction("Index", "User");
+                        return RedirectToAction("Index", "Member");
                 }
             }
 

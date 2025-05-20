@@ -1,0 +1,32 @@
+﻿@model List<LibrarySystem.Web.Models.LoanBookViewModels>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var book in Model)
+            {
+                <tr id="book-row-@book.Id">
+                    <td>@book.Title</td>
+                    <td>@book.Author</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm return-book-btn" data-id="@book.Id">Return</button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">You currently have no borrowed books.</td>
+            </tr>
+        }
+    </tbody>
+</table>
