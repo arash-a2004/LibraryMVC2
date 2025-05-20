@@ -22,7 +22,7 @@ namespace LibrarySystem.Web.Controllers
 
             var res = await _fineCheckerServices.BackGroundCheckList();
 
-            fineChecker.BackgroundCheckRequests = res.Select(e=> new LoanRequestListViewModel()
+            fineChecker.BackgroundCheckRequests = res.Select(e => new LoanRequestListViewModel()
             {
                 RequestDate = e.RequestDate,
                 BookTitle = e.BookTitle,
@@ -93,7 +93,7 @@ namespace LibrarySystem.Web.Controllers
             await _fineCheckerServices.Approve(id);
             return Json(new { success = true });
         }
-        
+
         [HttpPost]
         public async Task<ActionResult> Reject(int id)
         {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LibrarySystem.Data;
 using LibrarySystem.Domain.Models.DbModels;
 using LibrarySystem.Infrastructure.Interfaces;
+using LibrarySystem.Infrastructure.ModelDto.FineChecker;
 using LibrarySystem.Infrastructure.ModelDto.MemberDto;
 
 namespace LibrarySystem.Infrastructure.Infra
@@ -68,14 +69,14 @@ namespace LibrarySystem.Infrastructure.Infra
 
         }
 
-        public async Task<List<LoanRequestListDto>> LoanrequestList(int userId)
+        public async Task<List<ModelDto.MemberDto.LoanRequestListDto>> LoanrequestList(int userId)
         {
             var res = await _appDbContext.LoanRequests
                 .Include(x => x.Book)
                 .Include(x => x.LoanTransaction)
                 .Where(e => e.UserId == userId)
                 .Where(e => (e.LoanTransaction == null) || (e.LoanTransaction != null && e.LoanTransaction.ReturnDate == null))
-                .Select(e => new LoanRequestListDto()
+                .Select(e => new ModelDto.MemberDto.LoanRequestListDto()
                 {
                     BookId = e.BookId,
                     RequestDate = e.RequestDate,
@@ -208,5 +209,70 @@ namespace LibrarySystem.Infrastructure.Infra
                 .ToListAsync();
 
         }
+
+        public List<UserFineCombinedDto> GetAllFinesForUser(int userId)
+        {
+            try
+            {
+                var returned = GetReturnedBookFinesForUser(userId);
+                var unreturned = GetUnreturnedBookFinesForUser(userId);
+                return returned.Concat(unreturned).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return new List<UserFineCombinedDto>();
+            }
+        }
+
+        protected List<UserFineCombinedDto> GetReturnedBookFinesForUser(int userId)
+        {
+            var returnedFines = _appDbContext.LoanTransactions
+                .Where(lt => lt.ReturnDate != null && lt.Fine != null && lt.UserId == userId)
+                .Select(lt => new UserFineCombinedDto
+                {
+                    UserId = lt.UserId,
+                    LoanTransactionId = lt.Id,
+                    BookTitle = lt.Book.Title,
+                    LoanDate = lt.LoanDate,
+                    ReturnDate = lt.ReturnDate,
+                    DaysLate = lt.Fine.DaysLate,
+                    FineAmount = lt.Fine.FineAmount,
+                    IsPaid = lt.Fine.IsPaid,
+                    PaymentDate = lt.Fine.PaymentDate
+                })
+                .ToList();
+
+            return returnedFines;
+        }
+
+        protected List<UserFineCombinedDto> GetUnreturnedBookFinesForUser(int userId)
+        {
+            var today = DateTime.Now;
+            const int AllowedLoanDays = 14;
+            const decimal FinePerDay = 1000;
+
+            var unreturnedLoans = _appDbContext.LoanTransactions
+                .Where(lt => lt.ReturnDate == null && lt.UserId == userId)
+                .Include(lt => lt.Book) // make sure Book is loaded
+                .ToList() // move to memory (LINQ to Objects)
+                .Where(lt => (DateTime.Now - lt.LoanDate.AddDays(AllowedLoanDays)).Days > 0)
+                .Select(lt => new UserFineCombinedDto
+                {
+                    UserId = lt.UserId,
+                    LoanTransactionId = lt.Id,
+                    BookTitle = lt.Book.Title,
+                    LoanDate = lt.LoanDate,
+                    ReturnDate = null,
+                    DaysLate = (DateTime.Now - lt.LoanDate.AddDays(AllowedLoanDays)).Days,
+                    FineAmount = (DateTime.Now - lt.LoanDate.AddDays(AllowedLoanDays)).Days * FinePerDay,
+                    IsPaid = null,
+                    PaymentDate = null
+                })
+                .ToList();
+
+            return unreturnedLoans;
+        }
+
     }
 }

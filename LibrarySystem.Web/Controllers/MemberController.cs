@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using LibrarySystem.Application.Interfaces;
+using LibrarySystem.Application.Services.FineCheckerServices;
 using LibrarySystem.Infrastructure.ModelDto.MemberDto;
 using LibrarySystem.Web.CustomAttribute;
 using LibrarySystem.Web.Models;
@@ -180,7 +181,58 @@ namespace LibrarySystem.Web.Controllers
                 Title = e.Title
             }).ToList();
 
-            return PartialView("_MyBooksPartial",loanBookViewModels);
+            return PartialView("_MyBooksPartial", loanBookViewModels);
+        }
+
+
+        // GET: /FineChecker/Details/5
+        [HttpGet]
+        public ActionResult FineDetails(int id)
+        {
+            var fines = _memberServices.GetAllFinesForUser(CurrentUserId);
+
+            var returned = fines
+                .Where(f => f.IsReturned)
+                .Select(e => new UserFineCombinedViewModel()
+                {
+                    UserId = e.UserId,
+                    DaysLate = e.DaysLate,
+                    LoanDate = e.LoanDate,
+                    PaymentDate = e.PaymentDate,
+                    BookTitle = e.BookTitle,
+                    ReturnDate = e.ReturnDate,
+                    FineAmount = e.FineAmount,
+                    IsPaid = e.IsPaid,
+                    LoanTransactionId = e.LoanTransactionId,
+                }).ToList();
+
+            var unreturned = fines
+                .Where(f => !f.IsReturned)
+                .Select(e => new UserFineCombinedViewModel()
+                {
+                    UserId = e.UserId,
+                    DaysLate = e.DaysLate,
+                    LoanDate = e.LoanDate,
+                    PaymentDate = e.PaymentDate,
+                    BookTitle = e.BookTitle,
+                    ReturnDate = e.ReturnDate,
+                    FineAmount = e.FineAmount,
+                    IsPaid = e.IsPaid,
+                    LoanTransactionId = e.LoanTransactionId,
+                }).ToList();
+
+            var model = new UserFineDetailsViewModel
+            {
+                //UserId = request.UserId,
+                //LoanRequestId = request.Id,
+                //RequestedBook = request.Book.Title,
+                //RequestDate = request.RequestDate,
+                ReturnedFines = returned,
+                UnreturnedFines = unreturned
+            };
+
+            return PartialView("_FineDetails", model);
+
         }
 
     }

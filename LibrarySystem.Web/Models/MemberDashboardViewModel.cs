@@ -7,6 +7,7 @@ namespace LibrarySystem.Web.Models
         public List<LoanBookViewModels> books { get; set; } = new List<LoanBookViewModels>();
         public List<LoanRequestListViewModel> loanRequestListViewModels { get; set; } = new List<LoanRequestListViewModel>();
         public List<LoanBookViewModels> myBooks { get; set; } = new List<LoanBookViewModels>();
+        public List<LoanRequestListViewModel> BackgroundCheckRequests { get; set; } = new List<LoanRequestListViewModel>();
     }
 
     public class LoanBookViewModels

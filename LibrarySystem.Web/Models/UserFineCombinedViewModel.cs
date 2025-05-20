@@ -5,11 +5,11 @@ namespace LibrarySystem.Web.Models
 {
     public class UserFineDetailsViewModel
     {
-        public int UserId { get; set; }
-        public int LoanRequestId { get; set; }
+        public int? UserId { get; set; }
+        public int? LoanRequestId { get; set; }
 
         public string RequestedBook { get; set; }
-        public DateTime RequestDate { get; set; }
+        public DateTime? RequestDate { get; set; }
 
         public List<UserFineCombinedViewModel> UnreturnedFines { get; set; } = new List<UserFineCombinedViewModel>();
         public List<UserFineCombinedViewModel> ReturnedFines { get; set; } = new List<UserFineCombinedViewModel>();

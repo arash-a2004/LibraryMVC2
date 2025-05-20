@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using LibrarySystem.Application.Interfaces;
 using LibrarySystem.Infrastructure.Interfaces;
+using LibrarySystem.Infrastructure.ModelDto.FineChecker;
 using LibrarySystem.Infrastructure.ModelDto.MemberDto;
 
 namespace LibrarySystem.Application.Services.MemberServices
@@ -25,7 +26,7 @@ namespace LibrarySystem.Application.Services.MemberServices
         {
             await _memberRepository.SubmitLoanRequest(input);
         }
-        public async Task<List<LoanRequestListDto>> LoanrequestList(int userId)
+        public async Task<List<Infrastructure.ModelDto.MemberDto.LoanRequestListDto>> LoanrequestList(int userId)
         {
             return await _memberRepository.LoanrequestList(userId);
         }
@@ -40,6 +41,11 @@ namespace LibrarySystem.Application.Services.MemberServices
         public async Task<List<GetListAdmirableBooksDto>> MyBooks(int userId)
         {
             return await _memberRepository.MyBooks(userId);
+        }
+
+        public List<UserFineCombinedDto> GetAllFinesForUser(int userId)
+        {
+            return _memberRepository.GetAllFinesForUser(userId);
         }
     }
 }
